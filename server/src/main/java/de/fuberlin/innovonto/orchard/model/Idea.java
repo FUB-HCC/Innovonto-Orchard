@@ -2,6 +2,7 @@ package de.fuberlin.innovonto.orchard.model;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -9,17 +10,21 @@ public class Idea {
     static final int MAX_TITLE_LENGTH = 2_000;
     static final int MAX_CONTENT_LENGTH = 5_000;
 
+    private static final String currentContest = "debug-contest";
+    private static final String unknownCreator = "unknown";
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
-    @Column(name = "description", length = MAX_CONTENT_LENGTH, nullable = false)
+    @Column(name = "content", length = MAX_CONTENT_LENGTH, nullable = false)
     private String content;
 
     @Column(name = "title", length = MAX_TITLE_LENGTH, nullable = false)
     private String title;
 
-    private Boolean isCurrentVersion;
+    private Boolean isCurrentVersion = true;
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date created;
@@ -29,11 +34,25 @@ public class Idea {
     private String submissionMethod;
     private String status;
 
+    @ElementCollection
+    private List<String> applicationAreas;
+
+    @ElementCollection
+    private List<String> ideaUsers;
+
+    private String ideaDetails;
+    private String ideaProblem;
+    private String ideaUsersOther;
+
+    //TODO how to set the sparks?
 
     @Column(name = "icon_path", nullable = true)
     private String iconPath;
 
     public Idea() {
+        this.status = "icv-needed";
+        this.ideaContest = currentContest;
+        this.creator = unknownCreator;
     }
 
     public Idea(String content, Date created, String creator, String ideaContest, String submissionMethod) {
@@ -124,5 +143,45 @@ public class Idea {
 
     public void setIconPath(String iconPath) {
         this.iconPath = iconPath;
+    }
+
+    public List<String> getApplicationAreas() {
+        return applicationAreas;
+    }
+
+    public void setApplicationAreas(List<String> applicationAreas) {
+        this.applicationAreas = applicationAreas;
+    }
+
+    public List<String> getIdeaUsers() {
+        return ideaUsers;
+    }
+
+    public void setIdeaUsers(List<String> ideaUsers) {
+        this.ideaUsers = ideaUsers;
+    }
+
+    public String getIdeaDetails() {
+        return ideaDetails;
+    }
+
+    public void setIdeaDetails(String ideaDetails) {
+        this.ideaDetails = ideaDetails;
+    }
+
+    public String getIdeaProblem() {
+        return ideaProblem;
+    }
+
+    public void setIdeaProblem(String ideaProblem) {
+        this.ideaProblem = ideaProblem;
+    }
+
+    public String getIdeaUsersOther() {
+        return ideaUsersOther;
+    }
+
+    public void setIdeaUsersOther(String ideaUsersOther) {
+        this.ideaUsersOther = ideaUsersOther;
     }
 }
