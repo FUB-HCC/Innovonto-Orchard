@@ -1,0 +1,9 @@
+{
+  "App_Name": "Visual Idea Clustering",
+  "ideaSize": {
+    "width": 120,
+    "height": 120,
+    "contentHeight": 80,
+    "fontSize": 10
+  }
+}
