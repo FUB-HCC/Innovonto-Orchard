@@ -6,6 +6,7 @@ server/.idea/**
 
 # File-based project format
 *.iws
+*.iml
 
 # IntelliJ
 out/
@@ -34,6 +35,11 @@ fabric.properties
 .directory
 
 server/.gradle/**
+
+## Application Specific stuff:
+server/media/**
+server/*.mv.db
+
 
 ### CLIENT
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.

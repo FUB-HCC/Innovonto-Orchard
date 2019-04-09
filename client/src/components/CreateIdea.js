@@ -5,9 +5,11 @@ import PropTypes from "prop-types";
 import classNames from "classnames";
 import { withStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
+
 import { SectionControl } from "../styledComponents";
 import { categories } from "../data/categories.json";
 import { apiEndpoint } from "../utils";
+import IconUploader from "./icons/IconUploader";
 import { addIdea } from "../actions";
 
 const styles = theme => ({
@@ -74,7 +76,11 @@ class CreateIdea extends Component {
   //TODO handle backend in redux action? evaluate.
   handleFormSubmit = event => {
     apiEndpoint
-      .post("/api/ideas", { ...this.state, created: Date.now() })
+      .post("/api/ideas", {
+        ...this.state,
+        created: Date.now(),
+        iconPath: this.state.icon.resourceName
+      })
       .then(response => {
         console.log(response);
         this.props.dispatch(
@@ -90,6 +96,12 @@ class CreateIdea extends Component {
 
     event.preventDefault();
     return 0;
+  };
+
+  handleImageUploadComplete = result => {
+    this.setState({
+      icon: result
+    });
   };
 
   render() {
@@ -121,6 +133,7 @@ class CreateIdea extends Component {
             rows="4"
             required
           />
+          <IconUploader onUploadComplete={this.handleImageUploadComplete} />
           <TextField
             id="inspiredBy"
             label="By which Sparks is the Idea inspired?"
