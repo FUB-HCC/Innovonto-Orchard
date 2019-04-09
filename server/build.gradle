@@ -1,0 +1,71 @@
+buildscript {
+    ext { springBootVersion = '2.1.3.RELEASE' }
+    repositories {
+        mavenCentral()
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath('se.transmode.gradle:gradle-docker:1.2')
+        classpath("pl.allegro.tech.build:axion-release-plugin:1.10.0")
+        classpath('gradle.plugin.com.palantir.gradle.docker:gradle-docker:0.20.1')
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+configurations {
+    compile.exclude module: 'spring-boot-starter-tomcat'
+    compile.exclude group: 'org.apache.tomcat'
+}
+
+apply plugin: 'java'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+apply plugin: 'com.palantir.docker'
+
+def registry = "registry.gitlab.com"
+group = "mackeprm/i2m-brainstorming-app-backend"
+
+bootJar {
+    classifier = 'standalone'
+    version = "0.0.2"
+}
+
+task unpack(type: Copy) {
+    dependsOn bootJar
+    from(zipTree(tasks.bootJar.outputs.files.singleFile))
+    into("build/dependency")
+}
+
+docker {
+    dockerfile file('src/main/docker/Dockerfile')
+    name registry + "/${project.group}/${bootJar.baseName}"
+    copySpec.from(tasks.unpack.outputs).into("dependency")
+    buildArgs(['DEPENDENCY': "dependency"])
+    //TODO buildArgs([BUILD_VERSION: project.version])
+}
+
+
+dependencies {
+    //Web
+    compile("org.springframework.boot:spring-boot-starter-web")
+    compile("org.springframework.boot:spring-boot-starter-jetty")
+
+    //Backend: Spring Boot Data Rest + H2
+    compile('org.springframework.boot:spring-boot-starter-data-jpa')
+    compile('org.springframework.boot:spring-boot-starter-data-rest')
+    compile('com.h2database:h2')
+
+    //RDF Handling: Jena
+    compile group: 'org.apache.jena', name: 'jena-core', version: '3.10.0'
+    compile group: 'org.apache.jena', name: 'jena-arq', version: '3.10.0'
+    
+    //TODO devtools
+    //compile('spring-boot-devtools')
+}
+ 
