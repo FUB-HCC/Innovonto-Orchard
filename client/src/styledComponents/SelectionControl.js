@@ -9,68 +9,66 @@ import Checkbox from "@material-ui/core/Checkbox";
 
 const styles = theme => ({
   root: {
-    display: "flex"
+    display: "flex",
+    flexWrap: "wrap"
   },
   formControl: {
-    margin: theme.spacing.unit * 3
+    margin: theme.spacing.unit * 3,
+    width: 250
   },
   group: {
     margin: `${theme.spacing.unit}px 0`
+  },
+  label: {
+    margin: theme.spacing.unit
   }
 });
 
-class SelectionControl extends React.Component {
-  state = {
-    ...this.props.categories,
-    formData: this.props.formData
-  };
-
-  handleChange = event => {
-    const checked = event.target.checked;
-    const formData = this.state.formData;
-    const elementName = event.target.value;
-
-    if (checked) {
-      if (!formData.includes(elementName)) {
-        formData.push(elementName);
-      }
-    } else {
-      if (formData.includes(elementName)) {
-        formData.splice(formData.indexOf(elementName), 1);
-      }
-    }
-
-    this.setState({ formData: formData });
-  };
-
-  render() {
-    const { classes, categories } = this.props;
-    const displayForm = categories.map(c => {
-      const displayLabels = c.labels.map(l => (
-        <FormControlLabel key={l} value={l} control={<Checkbox />} label={l} />
-      ));
-      return (
-        <FormControl
-          key={c.title}
-          component="fieldset"
-          className={classes.formControl}
+const SelectionControl = ({
+  classes,
+  categories,
+  hasCategories,
+  onChange,
+  label
+}) => {
+  const displayForm = categories.map(c => {
+    const displayLabels = c.labels.map(l => (
+      <FormControlLabel
+        key={l}
+        value={l}
+        control={<Checkbox checked={hasCategories.includes(l)} />}
+        label={l}
+      />
+    ));
+    return (
+      <FormControl
+        key={c.title}
+        component="fieldset"
+        className={classes.formControl}
+      >
+        <FormLabel component="legend">{c.title}</FormLabel>
+        <FormGroup
+          aria-label={c.title}
+          name={c.title}
+          className={classes.group}
+          value={categories[c]}
+          onChange={onChange}
         >
-          <FormLabel component="legend">{c.title}</FormLabel>
-          <FormGroup
-            aria-label={c.title}
-            name={c.title}
-            className={classes.group}
-            value={this.state[c]}
-            onChange={this.handleChange}
-          >
-            {displayLabels}
-          </FormGroup>
-        </FormControl>
-      );
-    });
-    return <div className={classes.root}>{displayForm}</div>;
-  }
-}
+          {displayLabels}
+        </FormGroup>
+      </FormControl>
+    );
+  });
+
+  return (
+    <div className={classes.root}>
+      <FormLabel component="legend" className={classes.label}>
+        {label}
+      </FormLabel>
+      {displayForm}
+    </div>
+  );
+};
 
 SelectionControl.propTypes = {
   classes: PropTypes.object.isRequired

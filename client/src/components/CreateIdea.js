@@ -4,12 +4,11 @@ import { H6, Section, Button } from "../styledComponents";
 import PropTypes from "prop-types";
 import classNames from "classnames";
 import { withStyles } from "@material-ui/core/styles";
-import MenuItem from "@material-ui/core/MenuItem";
 import TextField from "@material-ui/core/TextField";
-import { Input } from "@material-ui/core";
 import { SectionControl } from "../styledComponents";
 import { categories } from "../data/categories.json";
 import { apiEndpoint } from "../utils";
+import { addIdea } from "../actions";
 
 const styles = theme => ({
   container: {
@@ -27,7 +26,7 @@ const styles = theme => ({
     width: 200
   },
   root: {
-    maxWidth: 600,
+    maxWidth: 700,
     margin: "auto"
   }
 });
@@ -36,6 +35,7 @@ class CreateIdea extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      created: "",
       title: "",
       content: "",
       inspiredBy: "",
@@ -48,19 +48,41 @@ class CreateIdea extends Component {
     };
   }
 
-  handleSetUpdateState = fieldName => event => {
+  handleUpdateState = fieldName => event => {
     const stateObject = {};
     stateObject[fieldName] = event.target.value;
     this.setState(stateObject);
   };
 
+  handleSelectCategory = fieldName => event => {
+    const checked = event.target.checked;
+    const hasCategories = this.state[fieldName];
+    const elementName = event.target.value;
+
+    if (checked) {
+      if (!hasCategories.includes(elementName)) {
+        hasCategories.push(elementName);
+      }
+    } else {
+      if (hasCategories.includes(elementName)) {
+        hasCategories.splice(hasCategories.indexOf(elementName), 1);
+      }
+    }
+    this.setState({ hasCategories: hasCategories });
+  };
+
   //TODO handle backend in redux action? evaluate.
   handleFormSubmit = event => {
     apiEndpoint
-      .post("/api/ideas", this.state)
+      .post("/api/ideas", { ...this.state, created: Date.now() })
       .then(response => {
         console.log(response);
-        //dispatch()
+        this.props.dispatch(
+          addIdea(
+            response.data._links.idea.href.split("/").pop(),
+            response.data
+          )
+        );
       })
       .catch(error => {
         console.log(error);
@@ -72,7 +94,6 @@ class CreateIdea extends Component {
 
   render() {
     const { classes } = this.props;
-    console.log("FORMDATA: ", this.state);
     return (
       <div className={classes.root}>
         <H6>{"Create Idea"}</H6>
@@ -86,14 +107,14 @@ class CreateIdea extends Component {
             id="title"
             label="Title"
             className={classes.textField}
-            onChange={this.handleSetUpdateState("title")}
+            onChange={this.handleUpdateState("title")}
             required
           />
           <TextField
             id="content"
             label="Description"
             className={classes.textField}
-            onChange={this.handleSetUpdateState("content")}
+            onChange={this.handleUpdateState("content")}
             fullWidth
             multiline
             rowsMax="10"
@@ -104,14 +125,14 @@ class CreateIdea extends Component {
             id="inspiredBy"
             label="By which Sparks is the Idea inspired?"
             className={classes.textField}
-            onChange={this.handleSetUpdateState("inspiredBy")}
+            onChange={this.handleUpdateState("inspiredBy")}
             fullWidth
           />
           <TextField
             id="ideaDetails"
             label="Describe your idea in more detail (e.g., how is it used?)"
             className={classes.textField}
-            onChange={this.handleSetUpdateState("ideaDetails")}
+            onChange={this.handleUpdateState("ideaDetails")}
             fullWidth
             multiline
             rowsMax="10"
@@ -122,7 +143,7 @@ class CreateIdea extends Component {
             id="ideaProblem"
             label="Which problem does the idea solve?"
             className={classes.textField}
-            onChange={this.handleSetUpdateState("ideaProblem")}
+            onChange={this.handleUpdateState("ideaProblem")}
             fullWidth
             multiline
             rowsMax="10"
@@ -131,10 +152,17 @@ class CreateIdea extends Component {
           />
           <SectionControl
             label="In which of the following areas can the idea be applied?"
-            categories={categories}
-            formData={this.state.applicationAreas}
+            categories={categories.applicationAreas}
+            hasCategories={this.state.applicationAreas}
+            onChange={this.handleSelectCategory("applicationAreas")}
           />
-          <Button>
+          <SectionControl
+            label="Who is using the idea?"
+            categories={categories.ideaUsers}
+            hasCategories={this.state.ideaUsers}
+            onChange={this.handleSelectCategory("ideaUsers")}
+          />
+          <Button type="submit">
             <input type="submit" value="Submit" />
           </Button>
         </form>

@@ -1,0 +1,72 @@
+{
+  "@id": "http://purl.org/innovonto/ideas/3dc62d12-462c-4188-bbb2-365297f898c6",
+  "@type": "gi2mo:Idea",
+  "created": "2018-11-30T11:56:41+00:00",
+  "title": "NEW TABLE TENNIS FUN",
+  "MinMaxRating": {
+    "@id": "_:b3",
+    "title": "Novelty",
+    "hasCreator": "http://purl.org/innovonto/users/b2e5120c-7331-42e3-ac9e-d1c6112ba3ab",
+    "maxRatingValue": "5",
+    "minRatingValue": "0",
+    "ratingValue": "3"
+  },
+  "content": "covering table tennis tables to integrate new challenges for players - i.e. one has to hit moving circles on\n            the table or you can show the score on the table. you could upgrade your existing table tennis set by applying it on the markings for example to show if your ball was in or out. Modification: interactive play\n            areas, interactive Minigolf",
+  "hasCategory": [
+    {
+      "@id": "_:b6",
+      "title": "Usage Area",
+      "hasSubCategory": [
+        {
+          "@id": "_:b1",
+          "title": "Garden"
+        },
+        {
+          "@id": "_:b0",
+          "title": "Kitchen"
+        }
+      ]
+    },
+    {
+      "@id": "_:b4",
+      "title": "Target Group",
+      "hasSubCategory": {
+        "@id": "_:b5",
+        "title": "Children"
+      }
+    }
+  ],
+  "hasCreator": "http://purl.org/innovonto/users/56a8e21b-6d77-4592-a9bc-aea25a263855",
+  "hasIdeaContest": "http://purl.org/innovonto/ideaContests/TCO",
+  "hasSubmissionMethod": "http://purl.org/innovonto/submission-methods/ideaCreationApp",
+  "isCurrentVersion": "true",
+  "versionInfo": {
+    "@id": "http://purl.org/innovonto/ideasHistory/3dc62d12-462c-4188-bbb2-365297f898c6/2",
+    "modificationType": "MODIFY",
+    "versionDate": "2018-11-30T12:02:41+00:00",
+    "versionNumber": "2"
+  },
+  "concept": [
+    {
+      "@id": "http://purl.org/innovonto/concepts/126",
+      "conceptSurface": "window",
+      "endIndex": "12",
+      "linkedConcept": "http://dbpedia.org/resource/Sticker",
+      "startIndex": "5"
+    },
+    {
+      "@id": "http://purl.org/innovonto/concepts/125",
+      "conceptSurface": "window",
+      "endIndex": "12",
+      "linkedConcept": "http://dbpedia.org/resource/Sticker",
+      "startIndex": "5"
+    }
+  ],
+  "icon": "https://ideas-to-market.imp.fu-berlin.de/media/tco/icons/164.png",
+  "inspiredBy": "http://purl.org/innovonto/ideas/91dd6ec9-87e9-41ba-9bb9-3bcc385d97d4",
+  "textualRefinement": {
+    "@id": "_:b7",
+    "description": "Which problem does the idea solve?",
+    "content": "makes the game more fluid, brings in more fun"
+  }
+}

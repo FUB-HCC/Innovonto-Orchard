@@ -52,6 +52,7 @@ const updateIdea = (id, container, updateObj) => ({
   updateObj
 });
 
+export * from "./ideaActions";
 export {
   moveIdea,
   moveCluster,
