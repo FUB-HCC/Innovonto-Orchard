@@ -1,11 +1,13 @@
 import React from "react";
+import { connect } from "react-redux";
 import { App_Name } from "./../constants/index.json";
 import { logoI2M } from "../logos";
 import { header } from "../constants/color";
 import { download, reset } from "../icons";
 import { Button, H6, H2 } from "../styledComponents";
-import { UndoRedo } from "./";
 import { Link } from "@reach/router";
+import { downloadState } from "../utils";
+import { resetState } from "../actions";
 
 var styles = {
   header: {
@@ -22,14 +24,13 @@ var styles = {
   }
 };
 
-const Header = ({ handleDownloadState, handleResetState }) => (
+const Header = ({ resetState, ...props }) => (
   <div className="row header" style={styles.header}>
     <div className="col-auto" style={styles.h}>
-      <UndoRedo />
-      <Button onClick={handleDownloadState}>
+      <Button onClick={() => downloadState(props)}>
         {"Download"} <img alt="download" height={20} src={download} />
       </Button>
-      <Button onClick={handleResetState}>
+      <Button onClick={resetState}>
         {"Reset"} <img alt="reset" height={20} src={reset} />
       </Button>
       <Button>{"Import Sparks"}</Button>
@@ -51,4 +52,16 @@ const Header = ({ handleDownloadState, handleResetState }) => (
   </div>
 );
 
-export default Header;
+const mapStateToProps = state => ({
+  ...state.clustering.present,
+  activeIdea: state.activeIdea
+});
+
+const mapDispatchToProps = dispatch => ({
+  resetState: () => dispatch(resetState())
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Header);

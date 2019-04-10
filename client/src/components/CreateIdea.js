@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { H6, Section, Button } from "../styledComponents";
-import PropTypes from "prop-types";
-import classNames from "classnames";
+import { H6, Button } from "../styledComponents";
 import { withStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 
@@ -51,9 +49,9 @@ class CreateIdea extends Component {
   }
 
   handleUpdateState = fieldName => event => {
-    const stateObject = {};
-    stateObject[fieldName] = event.target.value;
-    this.setState(stateObject);
+    if (this.state[fieldName] !== event.target.value) {
+      this.setState({ [fieldName]: event.target.value });
+    }
   };
 
   handleSelectCategory = fieldName => event => {
@@ -95,7 +93,7 @@ class CreateIdea extends Component {
       });
 
     event.preventDefault();
-    return 0;
+    return null;
   };
 
   handleImageUploadComplete = result => {
@@ -119,14 +117,14 @@ class CreateIdea extends Component {
             id="title"
             label="Title"
             className={classes.textField}
-            onChange={this.handleUpdateState("title")}
+            onBlur={this.handleUpdateState("title")}
             required
           />
           <TextField
             id="content"
             label="Description"
             className={classes.textField}
-            onChange={this.handleUpdateState("content")}
+            onBlur={this.handleUpdateState("content")}
             fullWidth
             multiline
             rowsMax="10"
@@ -138,14 +136,14 @@ class CreateIdea extends Component {
             id="inspiredBy"
             label="By which Sparks is the Idea inspired?"
             className={classes.textField}
-            onChange={this.handleUpdateState("inspiredBy")}
+            onBlur={this.handleUpdateState("inspiredBy")}
             fullWidth
           />
           <TextField
             id="ideaDetails"
             label="Describe your idea in more detail (e.g., how is it used?)"
             className={classes.textField}
-            onChange={this.handleUpdateState("ideaDetails")}
+            onBlur={this.handleUpdateState("ideaDetails")}
             fullWidth
             multiline
             rowsMax="10"
@@ -156,7 +154,7 @@ class CreateIdea extends Component {
             id="ideaProblem"
             label="Which problem does the idea solve?"
             className={classes.textField}
-            onChange={this.handleUpdateState("ideaProblem")}
+            onBlur={this.handleUpdateState("ideaProblem")}
             fullWidth
             multiline
             rowsMax="10"
