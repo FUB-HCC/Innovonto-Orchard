@@ -1,8 +1,8 @@
 import React from "react";
 import Draggable from "./draggable";
 import RenameableH6 from "./renameableH6";
-import { ideaSize } from "./../constants/index.json";
-import { renderIdeas } from "./";
+import { sparkSize } from "./../constants/index.json";
+import { renderSparks } from "./";
 import { clusterColor } from "./../constants/color";
 
 export const renderClusters = clusters => {
@@ -35,19 +35,19 @@ var styles = {
   }
 };
 
-const Cluster = ({ id, position, ideas, name }) => {
-  const [width, height] = getShape(ideas.length);
+const Cluster = ({ id, position, sparks, name }) => {
+  const [width, height] = getShape(sparks.length);
   var style = {
     ...styles.clusterBox,
     ...position,
     ...{
-      width: 4 + ideaSize.width * width,
-      height: ideaSize.height * height + 50
+      width: 4 + sparkSize.width * width,
+      height: sparkSize.height * height + 50
     }
   };
   const dropZone = "CLUSTER" + id;
   const container = { type: "CLUSTER", id: id };
-  var displayIdeas = renderIdeas(ideas, container, dropZone);
+  var displaySparks = renderSparks(sparks, container, dropZone);
   return (
     <Draggable id={id} dropZone={dropZone} type={"cluster"} style={style}>
       <div id={id}>
@@ -57,7 +57,7 @@ const Cluster = ({ id, position, ideas, name }) => {
           name={name}
           defaultName={"CLUSTER"}
         />
-        {displayIdeas}
+        {displaySparks}
       </div>
     </Draggable>
   );

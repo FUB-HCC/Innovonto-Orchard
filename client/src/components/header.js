@@ -54,7 +54,7 @@ const Header = ({ resetState, ...props }) => (
 
 const mapStateToProps = state => ({
   ...state.clustering.present,
-  activeIdea: state.activeIdea
+  activeSpark: state.activeSpark
 });
 
 const mapDispatchToProps = dispatch => ({

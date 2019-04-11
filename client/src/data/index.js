@@ -1,19 +1,19 @@
 import DATA from "./ac1-export-complete.json";
 
 const getDATA = () => {
-  var ideas = DATA["@graph"].map((idea, i) => {
+  var sparks = DATA["@graph"].map((spark, i) => {
     return {
-      content: idea.content,
-      "@id": idea["@id"],
-      id: idea["@id"]
+      content: spark.content,
+      "@id": spark["@id"],
+      id: spark["@id"]
         .split("/")
         .filter(v => v !== "")
         .pop(),
-      title: `Idea ${i}`,
+      title: `Spark ${i}`,
       position: { left: 0, top: 0 }
     };
   });
-  return ideas;
+  return sparks;
 };
 
 export { getDATA, DATA };

@@ -1,145 +1,162 @@
 {
   "categories": {
-    "applicationAreas": [
-      {
-        "title": "Domestic home",
-        "labels": [
-          "Kitchen",
-          "Bedroom",
-          "Living room",
-          "Dining room",
-          "Nursery",
-          "Bathroom",
-          "Utility room",
-          "Garage",
-          "Garden",
-          "Balcony/terrace"
-        ]
-      },
-      {
-        "title": "Industry",
-        "labels": [
-          "Offices",
-          "Shop floor",
-          "Showroom & exhibition room",
-          "Construction sites",
-          "Retail stores",
-          "Film set",
-          "Storage building",
-          "Farming",
-          "Animal husbandry",
-          "Culinary establishment",
-          "Hotels",
-          "Hospitals & medical practice",
-          "Criminal prosecution",
-          "Laboratory"
-        ]
-      },
-      {
-        "title": "Architecture",
-        "labels": [
-          "Buildings",
-          "Streets",
-          "Public places",
-          "Bridges",
-          "Monuments"
-        ]
-      },
-      {
-        "title": "Public transport",
-        "labels": ["Train", "Plane", "Bus", "Taxi"]
-      },
-      {
-        "title": "Private transport",
-        "labels": ["Bike", "Car", "Boat", "Motor bike", "Trucks"]
-      },
-      {
-        "title": "Body",
-        "labels": [
-          "Medical device",
-          "pharmaceutical",
-          "Clothing",
-          "Accessories",
-          "Beauty products",
-          "Food & Nutrition"
-        ]
-      },
-      {
-        "title": "Leisure time",
-        "labels": [
-          "Toys & Games",
-          "Sports field",
-          "Swimming Pool",
-          "Gym",
-          "Cinema",
-          "Electronic Media",
-          "Books & journals",
-          "Music & sound recordings",
-          "consumer electronics",
-          "Sports goods",
-          "Packaging"
-        ]
-      },
-      {
-        "title": "Public institutions",
-        "labels": [
-          "University",
-          "School",
-          "Kindergarten",
-          "Public authorities",
-          "Museums",
-          "Library",
-          "Theatre",
-          "Cemetery",
-          "Retirement home",
-          "Parks & Forest"
-        ]
-      }
-    ],
-    "ideaUsers": [
-      {
-        "title": "Age",
-        "labels": [
-          "Children (under 13)",
-          "Youth (under 18)",
-          "Adults (under 65)",
-          "Elderly people (over 65)"
-        ]
-      },
-      { "title": "Gender", "labels": ["Men, Women"] },
+    "title": "Title",
+    "content": "Description",
+    "inspiredBy": "By which Sparks is the Idea inspired?",
+    "icon": "upload Icon",
+    "ideaDetails": "Describe your idea in more detail (e.g., how is it used?)",
+    "ideaProblem": "Which problem does the idea solve?",
+    "applicationAreas": {
+      "label": "In which of the following areas can the idea be applied?",
+      "selection": [
+        {
+          "title": "Domestic home",
+          "labels": [
+            "Kitchen",
+            "Bedroom",
+            "Living room",
+            "Dining room",
+            "Nursery",
+            "Bathroom",
+            "Utility room",
+            "Garage",
+            "Garden",
+            "Balcony/terrace"
+          ]
+        },
+        {
+          "title": "Industry",
+          "labels": [
+            "Offices",
+            "Shop floor",
+            "Showroom & exhibition room",
+            "Construction sites",
+            "Retail stores",
+            "Film set",
+            "Storage building",
+            "Farming",
+            "Animal husbandry",
+            "Culinary establishment",
+            "Hotels",
+            "Hospitals & medical practice",
+            "Criminal prosecution",
+            "Laboratory"
+          ]
+        },
+        {
+          "title": "Architecture",
+          "labels": [
+            "Buildings",
+            "Streets",
+            "Public places",
+            "Bridges",
+            "Monuments"
+          ]
+        },
+        {
+          "title": "Public transport",
+          "labels": ["Train", "Plane", "Bus", "Taxi"]
+        },
+        {
+          "title": "Private transport",
+          "labels": ["Bike", "Car", "Boat", "Motor bike", "Trucks"]
+        },
+        {
+          "title": "Body",
+          "labels": [
+            "Medical device",
+            "pharmaceutical",
+            "Clothing",
+            "Accessories",
+            "Beauty products",
+            "Food & Nutrition"
+          ]
+        },
+        {
+          "title": "Leisure time",
+          "labels": [
+            "Toys & Games",
+            "Sports field",
+            "Swimming Pool",
+            "Gym",
+            "Cinema",
+            "Electronic Media",
+            "Books & journals",
+            "Music & sound recordings",
+            "consumer electronics",
+            "Sports goods",
+            "Packaging"
+          ]
+        },
+        {
+          "title": "Public institutions",
+          "labels": [
+            "University",
+            "School",
+            "Kindergarten",
+            "Public authorities",
+            "Museums",
+            "Library",
+            "Theatre",
+            "Cemetery",
+            "Retirement home",
+            "Parks & Forest"
+          ]
+        }
+      ]
+    },
+    "ideaUsers": {
+      "label": "Who is using the idea?",
+      "selection": [
+        {
+          "title": "Age",
+          "labels": [
+            "Children (under 13)",
+            "Youth (under 18)",
+            "Adults (under 65)",
+            "Elderly people (over 65)"
+          ]
+        },
+        { "title": "Gender", "labels": ["Men, Women"] },
 
-      {
-        "title": "Family status",
-        "labels": ["Families", "Singles", "Single parents", "Childless couples"]
-      },
-      {
-        "title": "Place of residence",
-        "labels": ["People living in rural places", "People living in cities"]
-      },
-      {
-        "title": "Occupation",
-        "labels": [
-          "Students",
-          "Pupils",
-          "Employees",
-          "Self-employed",
-          "Unemployed",
-          "Companies"
-        ]
-      },
-      {
-        "title": "Motivation",
-        "labels": [
-          "Pet owner",
-          "(Amateur) athletes",
-          "(Amateur) artists",
-          "Travelers",
-          "Self-optimizers",
-          "(Amateur) chefs",
-          "Handyman",
-          "Professionals"
-        ]
-      }
-    ]
+        {
+          "title": "Family status",
+          "labels": [
+            "Families",
+            "Singles",
+            "Single parents",
+            "Childless couples"
+          ]
+        },
+        {
+          "title": "Place of residence",
+          "labels": ["People living in rural places", "People living in cities"]
+        },
+        {
+          "title": "Occupation",
+          "labels": [
+            "Students",
+            "Pupils",
+            "Employees",
+            "Self-employed",
+            "Unemployed",
+            "Companies"
+          ]
+        },
+        {
+          "title": "Motivation",
+          "labels": [
+            "Pet owner",
+            "(Amateur) athletes",
+            "(Amateur) artists",
+            "Travelers",
+            "Self-optimizers",
+            "(Amateur) chefs",
+            "Handyman",
+            "Professionals"
+          ]
+        }
+      ]
+    }
   }
 }

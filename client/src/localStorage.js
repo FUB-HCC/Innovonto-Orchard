@@ -1,3 +1,7 @@
+var Ajv = require("ajv");
+var ajv = new Ajv();
+const stateSchema = require("./models/state.json");
+
 export const saveState = state => {
   try {
     const serializedState = JSON.stringify(state);
@@ -11,17 +15,12 @@ export const saveState = state => {
 export const loadState = () => {
   try {
     const serializedState = localStorage.getItem("state");
-    if (serializedState === null) {
-      return undefined;
+    const data = JSON.parse(serializedState);
+    if (ajv.validate(stateSchema, data)) {
+      console.log("valitated true", data);
+      return data;
     }
-    return {
-      clustering: {
-        present: JSON.parse(serializedState),
-        past: [],
-        future: []
-      },
-      activeIdea: null
-    };
+    return undefined;
   } catch (err) {
     return undefined;
   }

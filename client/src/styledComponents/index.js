@@ -4,7 +4,7 @@ import H2 from "./h2";
 import Section from "./section";
 import { Box } from "./box";
 import { Li, XButton } from "./label";
-import { IdeaContainer } from "./ideaContainer";
+import { SparkContainer } from "./sparkContainer";
 import { Number } from "./number";
 import LabelIcon from "./LabelIcon";
 import TextnoteIcon from "./TextnoteIcon";
@@ -19,7 +19,7 @@ export {
   Box,
   Li,
   XButton,
-  IdeaContainer,
+  SparkContainer,
   Number,
   LabelIcon,
   TextnoteIcon,

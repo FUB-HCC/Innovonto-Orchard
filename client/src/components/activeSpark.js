@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { updateIdea } from "../actions";
+import { updateSpark } from "../actions";
 import { TextNote, LabelList } from "./";
 import { H6, Section } from "../styledComponents";
 
@@ -13,7 +13,7 @@ const styles = {
     fontSize: 14
   }
 };
-const ActiveIdea = ({
+const ActiveSpark = ({
   id,
   container,
   content,
@@ -24,16 +24,16 @@ const ActiveIdea = ({
 }) => {
   return (
     <div style={styles.box}>
-      <H6>{title || "Idea"}</H6>
+      <H6>{title || "Spark"}</H6>
       <LabelList
         id={id}
         labels={labels}
-        handleSave={obj => dispatch(updateIdea(id, container, obj))}
+        handleSave={obj => dispatch(updateSpark(id, container, obj))}
       />
       <TextNote
         id={id}
         textnote={textnote}
-        handleSave={obj => dispatch(updateIdea(id, container, obj))}
+        handleSave={obj => dispatch(updateSpark(id, container, obj))}
       />
       <Section>content:</Section>
       <div style={styles.content}>{content}</div>
@@ -41,4 +41,4 @@ const ActiveIdea = ({
   );
 };
 
-export default connect()(ActiveIdea);
+export default connect()(ActiveSpark);

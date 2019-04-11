@@ -17,16 +17,16 @@ export const downloadState = state => {
 };
 
 function convert(state) {
-  var { boardIdeas, clusters } = state;
-  var ideas = boardIdeas.map(({ title, ...idea }) => ({
-    ...idea,
+  var { boardSparks, clusters } = state;
+  var sparks = boardSparks.map(({ title, ...spark }) => ({
+    ...spark,
     cluster: null
   }));
   clusters.forEach(c => {
-    ideas = [...ideas, ...c.ideas.map(i => ({ ...i, cluster: c.id }))];
+    sparks = [...sparks, ...c.sparks.map(i => ({ ...i, cluster: c.id }))];
   });
   clusters = clusters.map(({ id, name, position }) => ({ id, name, position }));
-  return { ideas, clusters };
+  return { sparks, clusters };
 }
 
 export default downloadState;

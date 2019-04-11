@@ -1,6 +1,6 @@
 {
   "App_Name": "Visual Idea Clustering",
-  "ideaSize": {
+  "sparkSize": {
     "width": 120,
     "height": 120,
     "contentHeight": 80,

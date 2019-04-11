@@ -1,6 +1,12 @@
 import React, { Component } from "react";
 import { Router } from "@reach/router";
-import { Board, Header, CreateIdea, ViewCreatedIdeas } from "./components";
+import {
+  Board,
+  Header,
+  CreateIdea,
+  ViewCreatedIdeas,
+  Idea
+} from "./components";
 import { backgroundColor } from "./constants/color";
 
 class App extends Component {
@@ -10,8 +16,11 @@ class App extends Component {
         <Header />
         <Router>
           <Board path="/" />
+          <CreateIdea path="/create-idea/:ideaId" />
           <CreateIdea path="/create-idea" />
+          <ViewCreatedIdeas path="/ideas/:ideaId" />
           <ViewCreatedIdeas path="/ideas" />
+          <Idea path="/idea/:id" />
         </Router>
       </div>
     );

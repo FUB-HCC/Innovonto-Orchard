@@ -3,35 +3,38 @@ import { getShape } from "../components";
 import { getDATA } from "../data";
 import { isEqual } from "lodash";
 const initialState = {
-  stackIdeas: [],
-  boardIdeas: [],
+  stackSparks: [],
+  boardSparks: [],
   clusters: [],
   nextIndex: 0
 };
 
-export default (state = { ...initialState, stackIdeas: getDATA }, action) => {
+export default (
+  state = { ...initialState, stackSparks: getDATA() },
+  action
+) => {
   const { type } = action;
-  var idea, newState, clusters, stackIdeas, c;
+  var spark, newState, clusters, stackSparks, c;
   switch (type) {
-    case "MOVE_IDEA":
+    case "MOVE_SPARK":
       const { source, sink, id, position } = action;
-      [idea, newState] = removeIdeaFromSource(state, source, id);
+      [spark, newState] = removeSparkFromSource(state, source, id);
       if (!newState) return state;
-      newState = addIdeaToSink(
+      newState = addSparkToSink(
         newState,
         sink,
-        { ...idea, position },
+        { ...spark, position },
         isEqual(source, sink)
       );
       if (!newState) return state;
       return newState;
-    case "LOAD_IDEAS":
-      const { ideas } = action;
-      stackIdeas = [...state.stackIdeas, ...ideas];
+    case "LOAD_SPARKS":
+      const { sparks } = action;
+      stackSparks = [...state.stackSparks, ...sparks];
       return {
         ...state,
-        stackIdeas: stackIdeas,
-        nextIndex: ideas.length + state.nextIndex
+        stackSparks: stackSparks,
+        nextIndex: sparks.length + state.nextIndex
       };
     case "MOVE_CLUSTER":
       const { id: c_id, position: p } = action;
@@ -42,33 +45,36 @@ export default (state = { ...initialState, stackIdeas: getDATA }, action) => {
       [c, clusters] = removeElement(rnid, state.clusters);
       return { ...state, clusters: [...clusters, { ...c, name: rnname }] };
     case "TURN_OVER_STACK":
-      stackIdeas = state.stackIdeas;
+      stackSparks = state.stackSparks;
       return {
         ...state,
-        stackIdeas: [...stackIdeas.slice(1, stackIdeas.length), stackIdeas[0]]
+        stackSparks: [
+          ...stackSparks.slice(1, stackSparks.length),
+          stackSparks[0]
+        ]
       };
     case "TURN_BACK_STACK":
-      stackIdeas = state.stackIdeas;
+      stackSparks = state.stackSparks;
       return {
         ...state,
-        stackIdeas: [
-          stackIdeas[stackIdeas.length - 1],
-          ...stackIdeas.slice(0, stackIdeas.length - 1)
+        stackSparks: [
+          stackSparks[stackSparks.length - 1],
+          ...stackSparks.slice(0, stackSparks.length - 1)
         ]
       };
     case "RESET_STATE":
-      return { ...initialState, stackIdeas: getDATA() };
-    case "UPDATE_IDEA":
+      return { ...initialState, stackSparks: getDATA() };
+    case "UPDATE_SPARK":
       const { updateObj } = action;
-      [idea, newState] = removeIdeaFromSource(
+      [spark, newState] = removeSparkFromSource(
         state,
         action.container,
         action.id,
         true
       );
       if (!newState) return state;
-      newState = addIdeaToSink(newState, action.container, {
-        ...idea,
+      newState = addSparkToSink(newState, action.container, {
+        ...spark,
         ...updateObj
       });
       if (!newState) return state;
@@ -87,57 +93,60 @@ function removeElement(id, array) {
   let resultArray = [...array.slice(0, index), ...array.slice(index + 1)];
   return [array[index], resultArray];
 }
-function removeIdeaFromSource(state, source, id, keepSource = false) {
-  let boardIdeas, stackIdeas, clusters, idea, cluster, ideaList;
+function removeSparkFromSource(state, source, id, keepSource = false) {
+  let boardSparks, stackSparks, clusters, spark, cluster, sparkList;
   switch (source.type) {
     case "BOARD":
-      [idea, boardIdeas] = removeElement(id, state.boardIdeas);
-      return [idea, { ...state, boardIdeas: boardIdeas }];
+      [spark, boardSparks] = removeElement(id, state.boardSparks);
+      return [spark, { ...state, boardSparks: boardSparks }];
     case "STACK":
-      [idea, stackIdeas] = removeElement(id, state.stackIdeas);
-      return [idea, { ...state, stackIdeas: stackIdeas }];
+      [spark, stackSparks] = removeElement(id, state.stackSparks);
+      return [spark, { ...state, stackSparks: stackSparks }];
     case "CLUSTER":
       [cluster, clusters] = removeElement(source.id, state.clusters);
-      [idea, ideaList] = removeElement(id, cluster.ideas);
-      if (ideaList.length < 1 && !keepSource) {
-        return [idea, { ...state, clusters: clusters }];
+      [spark, sparkList] = removeElement(id, cluster.sparks);
+      if (sparkList.length < 1 && !keepSource) {
+        return [spark, { ...state, clusters: clusters }];
       }
       return [
-        idea,
-        { ...state, clusters: [...clusters, { ...cluster, ideas: ideaList }] }
+        spark,
+        { ...state, clusters: [...clusters, { ...cluster, sparks: sparkList }] }
       ];
     default:
       return [null, null];
   }
 }
 
-function addIdeaToSink(state, sink, idea, plusOneLength) {
-  let boardIdeas, clusters, cluster, idea2;
+function addSparkToSink(state, sink, spark, plusOneLength) {
+  let boardSparks, clusters, cluster, spark2;
   switch (sink.type) {
     case "BOARD":
       return {
         ...state,
-        boardIdeas: [...state.boardIdeas, idea]
+        boardSparks: [...state.boardSparks, spark]
       };
     case "STACK":
-      return { ...state, stackIdeas: [...state.stackIdeas, idea] };
+      return { ...state, stackSparks: [...state.stackSparks, spark] };
     case "CLUSTER":
       [cluster, clusters] = removeElement(sink.id, state.clusters);
-      let place = getPlaceInCluster(idea, cluster, plusOneLength ? 1 : 0);
+      let place = getPlaceInCluster(spark, cluster, plusOneLength ? 1 : 0);
       console.log(place);
       cluster = {
         ...cluster,
-        ideas: [
-          ...cluster.ideas.slice(0, place),
-          { ...idea, position: cluster.position },
-          ...cluster.ideas.slice(place)
+        sparks: [
+          ...cluster.sparks.slice(0, place),
+          { ...spark, position: cluster.position },
+          ...cluster.sparks.slice(place)
         ]
       };
       return { ...state, clusters: [...clusters, cluster] };
-    case "IDEA":
-      [idea2, boardIdeas] = removeElement(sink.id, state.boardIdeas);
-      clusters = [...state.clusters, new Cluster(idea.position, [idea, idea2])];
-      return { ...state, clusters: clusters, boardIdeas: boardIdeas };
+    case "SPARK":
+      [spark2, boardSparks] = removeElement(sink.id, state.boardSparks);
+      clusters = [
+        ...state.clusters,
+        new Cluster(spark.position, [spark, spark2])
+      ];
+      return { ...state, clusters: clusters, boardSparks: boardSparks };
     case "TRASH":
       return state;
     default:
@@ -145,12 +154,12 @@ function addIdeaToSink(state, sink, idea, plusOneLength) {
   }
 }
 
-const getPlaceInCluster = (idea, cluster, plus) => {
-  if (!idea.position) return cluster.ideas.length;
-  const [w] = getShape(cluster.ideas.length + plus);
-  console.log(w, cluster.position, idea.position);
-  let wp = Math.round((idea.position.left - cluster.position.left) / 120);
-  let hp = Math.round((idea.position.top - cluster.position.top) / 120);
+const getPlaceInCluster = (spark, cluster, plus) => {
+  if (!spark.position) return cluster.sparks.length;
+  const [w] = getShape(cluster.sparks.length + plus);
+  console.log(w, cluster.position, spark.position);
+  let wp = Math.round((spark.position.left - cluster.position.left) / 120);
+  let hp = Math.round((spark.position.top - cluster.position.top) / 120);
   console.log(wp, hp);
   return hp * w + wp;
 };

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { moveIdea } from "../actions";
+import { moveSpark } from "../actions";
 import { isEqual } from "lodash";
 
 class DropZone extends Component {
@@ -12,8 +12,8 @@ class DropZone extends Component {
     if (typeof unparsed !== "string" || unparsed.length === 0) return null;
     const data = JSON.parse(unparsed);
     const { id, type, container } = data;
-    if (type !== "idea" || isEqual(container, sink)) return null;
-    else return dispatch(moveIdea(container, sink, id));
+    if (type !== "spark" || isEqual(container, sink)) return null;
+    else return dispatch(moveSpark(container, sink, id));
   };
   allowDropColor = color => {
     this.dropZone.firstElementChild.style.background = color;

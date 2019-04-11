@@ -2,16 +2,16 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { getSinkFromTarget } from "../utils";
 import {
-  renderIdeas,
+  renderSparks,
   renderClusters,
-  IdeaStack,
+  SparkStack,
   ClusterList,
-  ActiveIdea,
+  ActiveSpark,
   UndoRedo
 } from "./";
-import { moveIdea, moveCluster } from "../actions";
+import { moveSpark, moveCluster } from "../actions";
 import { boardColor } from "./../constants/color";
-import { ideaSize } from "../constants/index.json";
+import { sparkSize } from "../constants/index.json";
 
 var styles = {
   board: {
@@ -28,10 +28,10 @@ var styles = {
 };
 const mapStateToProps = state => ({
   ...state.clustering.present,
-  activeIdea: state.activeIdea
+  activeSpark: state.activeSpark
 });
 const mapDispatchToProps = dispatch => ({
-  moveIdea: (...props) => dispatch(moveIdea(...props)),
+  moveSpark: (...props) => dispatch(moveSpark(...props)),
   moveCluster: (...props) => dispatch(moveCluster(...props))
 });
 
@@ -61,25 +61,29 @@ class Board extends Component {
       left: event.clientX - x - left,
       top: event.clientY - y - top
     };
-    if (type === "idea") {
+    if (type === "spark") {
       let sink = getSinkFromTarget(event.target);
 
-      if (sink.type === "IDEA" && sink.id === id) {
+      if (sink.type === "SPARK" && sink.id === id) {
         sink = { type: "BOARD" };
       }
-      this.props.moveIdea(container, sink, id, position);
+      this.props.moveSpark(container, sink, id, position);
     } else if (type === "cluster") {
       this.props.moveCluster(id, position);
     }
   };
 
   render() {
-    const { boardIdeas, clusters, stackIdeas, activeIdea } = this.props;
+    const { boardSparks, clusters, stackSparks, activeSpark } = this.props;
     return (
       <div className="d-flex flex-row">
         <UndoRedo />
-        <div className="float-left" style={{ width: ideaSize.width + 60 }}>
-          <IdeaStack name={"Idea Stack"} stackIdeas={stackIdeas} type="STACK" />
+        <div className="float-left" style={{ width: sparkSize.width + 60 }}>
+          <SparkStack
+            name={"Spark Stack"}
+            stackSparks={stackSparks}
+            type="STACK"
+          />
         </div>
         <div style={styles.container}>
           <div style={styles.board}>
@@ -91,15 +95,18 @@ class Board extends Component {
               onDrop={this.handleDrop}
               onDragOver={this.allowDrop}
             >
-              {renderIdeas(boardIdeas, { type: "BOARD" })}
+              {renderSparks(boardSparks, { type: "BOARD" })}
               {renderClusters(clusters)}
             </div>
           </div>
         </div>
 
         <div className="float-right" style={{ width: 400 }}>
-          {activeIdea ? (
-            <ActiveIdea {...activeIdea} {...findIdea(activeIdea, this.props)} />
+          {activeSpark ? (
+            <ActiveSpark
+              {...activeSpark}
+              {...findSpark(activeSpark, this.props)}
+            />
           ) : (
             <ClusterList clusters={clusters} />
           )}
@@ -109,16 +116,17 @@ class Board extends Component {
   }
 }
 
-const findIdea = ({ id, container }, props) => {
+const findSpark = ({ id, container }, props) => {
   switch (container.type) {
     case "BOARD":
-      return props.boardIdeas.find(i => i.id === id);
+      return props.boardSparks.find(i => i.id === id);
     case "STACK":
-      return props.stackIdeas.find(i => i.id === id);
+      return props.stackSparks.find(i => i.id === id);
     case "CLUSTER":
+      if (props.clusters.length === 0) return {};
       return props.clusters
         .find(ci => ci.id === container.id)
-        .ideas.find(i => i.id === id);
+        .sparks.find(i => i.id === id);
     default:
       return {};
   }

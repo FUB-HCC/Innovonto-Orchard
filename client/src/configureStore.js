@@ -16,7 +16,7 @@ const configureStore = () => {
   }
   store.subscribe(
     throttle(() => {
-      saveState(store.getState().clustering.present);
+      saveState(store.getState());
     }, 1000)
   );
 

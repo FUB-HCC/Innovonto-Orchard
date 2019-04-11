@@ -1,16 +1,16 @@
 import React from "react";
 import { DropZone } from "./";
-import { button, ideaColor } from "../constants/color";
+import { button, sparkColor } from "../constants/color";
 import { ClusterButton, Box, H6, Number } from "../styledComponents";
 
-const Item = ({ id, name, numberOfIdeas }) => {
+const Item = ({ id, name, numberOfSparks }) => {
   return (
     <a href={`#${id}`} style={{ textDecoration: "none" }}>
-      <DropZone sink={{ type: "CLUSTER", id: id }} dropColor={ideaColor}>
+      <DropZone sink={{ type: "CLUSTER", id: id }} dropColor={sparkColor}>
         <ClusterButton>
           <H6 noCenter={true}>
             {name}
-            <Number>{numberOfIdeas}</Number>
+            <Number>{numberOfSparks}</Number>
           </H6>
         </ClusterButton>
       </DropZone>
@@ -21,7 +21,7 @@ const Item = ({ id, name, numberOfIdeas }) => {
 const ClusterList = ({ clusters = [] }) => {
   var clusterList = clusters
     .sort((a, b) => {
-      if (!a.name && !b.name) return a.ideas.length < b.ideas.length;
+      if (!a.name && !b.name) return a.sparks.length < b.sparks.length;
       if (!a.name) return true; //undefined at the end of the list
       if (!b.name) return false;
       else return a.name.toLowerCase() > b.name.toLowerCase();
@@ -31,7 +31,7 @@ const ClusterList = ({ clusters = [] }) => {
         key={"list" + c.id}
         name={c.name || "CLUSTER"}
         id={c.id}
-        numberOfIdeas={c.ideas.length}
+        numberOfSparks={c.sparks.length}
       />
     ));
   return (

@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 
-export const IdeaContainer = styled.div(
+export const SparkContainer = styled.div(
   {
     position: "relative",
     margin: "0 auto",

@@ -4,9 +4,9 @@ const renameCluster = (id, name) => ({
   name
 });
 
-const loadIdeas = ideas => ({
-  type: "LOAD_IDEAS",
-  ideas
+const loadSparks = sparks => ({
+  type: "LOAD_SPARKS",
+  sparks
 });
 
 const moveCluster = (id, position) => ({
@@ -15,8 +15,8 @@ const moveCluster = (id, position) => ({
   position
 });
 
-const moveIdea = (source, sink, id, position) => ({
-  type: "MOVE_IDEA",
+const moveSpark = (source, sink, id, position) => ({
+  type: "MOVE_SPARK",
   source,
   sink,
   id,
@@ -35,18 +35,18 @@ const resetState = () => ({
   type: "RESET_STATE"
 });
 
-const setActiveIdea = (id, container) => ({
-  type: "SET_ACTIVE_IDEA",
+const setActiveSpark = (id, container) => ({
+  type: "SET_ACTIVE_SPARK",
   id,
   container
 });
 
-const removeAvtiveIdea = () => ({
-  type: "REMOVE_ACTIVE_IDEA"
+const removeAvtiveSpark = () => ({
+  type: "REMOVE_ACTIVE_SPARK"
 });
 
-const updateIdea = (id, container, updateObj) => ({
-  type: "UPDATE_IDEA",
+const updateSpark = (id, container, updateObj) => ({
+  type: "UPDATE_SPARK",
   id,
   container,
   updateObj
@@ -54,14 +54,14 @@ const updateIdea = (id, container, updateObj) => ({
 
 export * from "./ideaActions";
 export {
-  moveIdea,
+  moveSpark,
   moveCluster,
-  loadIdeas,
+  loadSparks,
   renameCluster,
   turnOverStack,
   turnBackStack,
   resetState,
-  setActiveIdea,
-  updateIdea,
-  removeAvtiveIdea
+  setActiveSpark,
+  updateSpark,
+  removeAvtiveSpark
 };

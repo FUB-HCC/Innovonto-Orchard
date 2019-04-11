@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { removeAvtiveIdea } from "../actions";
+import { removeAvtiveSpark } from "../actions";
 
 class Draggable extends Component {
   constructor(props) {
@@ -9,9 +9,9 @@ class Draggable extends Component {
   }
 
   handleDragStart = ev => {
-    const { id, type, container, activeidea } = this.props;
-    const idea = this.node.current;
-    var rect = idea.getBoundingClientRect();
+    const { id, type, container, activespark } = this.props;
+    const spark = this.node.current;
+    var rect = spark.getBoundingClientRect();
     var x = ev.clientX - rect.x;
     var y = ev.clientY - rect.y;
     var data = {
@@ -22,8 +22,8 @@ class Draggable extends Component {
     };
     if (ev.target.classList[1] !== type) return null;
     ev.dataTransfer.setData("json", JSON.stringify(data));
-    if (type === "idea" && activeidea !== null)
-      this.props.dispatch(removeAvtiveIdea());
+    if (type === "spark" && activespark !== null)
+      this.props.dispatch(removeAvtiveSpark());
   };
 
   // methods
@@ -44,4 +44,6 @@ class Draggable extends Component {
   }
 }
 
-export default connect(state => ({ activeidea: state.activeIdea }))(Draggable);
+export default connect(state => ({ activespark: state.activeSpark }))(
+  Draggable
+);

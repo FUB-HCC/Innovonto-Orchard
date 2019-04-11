@@ -8,10 +8,10 @@ const getSinkFromTarget = target => {
       type: className.slice(0, 7),
       id: className.slice(7)
     };
-  } else if (className.slice(0, 4) === "IDEA") {
+  } else if (className.slice(0, 5) === "SPARK") {
     return {
-      type: className.slice(0, 4),
-      id: className.slice(4)
+      type: className.slice(0, 5),
+      id: className.slice(5)
     };
   } else if (className === "BOARD") {
     return { type: className };

@@ -1,10 +1,10 @@
 import React from "react";
-import { ideaSize } from "../constants";
+import { sparkSize } from "../constants";
 import { labelIcon } from "../icons";
 
 const style = {
   float: "right",
-  fontSize: ideaSize.fontSize
+  fontSize: sparkSize.fontSize
 };
 
 const LabelIcon = () => (

@@ -1,24 +1,47 @@
 import React from "react";
+import { withStyles } from "@material-ui/core/styles";
+import { connect } from "react-redux";
 import { H6 } from "../styledComponents";
 import { Idea } from "./";
 
-const ViewCreatedIdeas = ({ ideas = [] }) => {
-  const displayIdeas = ideas.map(idea => <CreatedIdea {...idea} />);
+var styles = {
+  root: {
+    maxWidth: 700,
+    margin: "auto"
+  },
+  time: {
+    float: "right",
+    marginLeft: 5
+  },
+  image: {
+    float: "left",
+    marginRight: 10
+  },
+  content: {},
+  idea: {}
+};
+
+const ViewCreatedIdeas = ({ ideas = [], classes, ideaId }) => {
+  const displayIdeas = ideas.map(idea => (
+    <Idea
+      viewFull={ideaId === idea.id}
+      id={idea.id}
+      key={idea.id}
+      classes={classes}
+      {...idea}
+    />
+  ));
   return (
-    <div>
+    <div className={classes.root}>
       <H6>Created Ideas</H6>
       {displayIdeas}
     </div>
   );
 };
 
-const CreatedIdea = ({ title, content, image }) => {
-  return (
-    <div>
-      <Idea data={{ title, content }} />
-      <img src={image} alt="image" />
-    </div>
-  );
-};
-
-export default ViewCreatedIdeas;
+export default withStyles(styles)(
+  connect(
+    state => ({ ideas: state.ideas }),
+    null
+  )(ViewCreatedIdeas)
+);

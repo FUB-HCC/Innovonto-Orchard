@@ -47,6 +47,12 @@ class CreateIdea extends Component {
       ideaUsersOther: ""
     };
   }
+  componentDidMount(prevStat) {
+    if (this.props.ideaId) {
+      const idea = this.props.ideas.find(i => i.id === this.props.ideaId);
+      if (idea) this.setState(idea);
+    }
+  }
 
   handleUpdateState = fieldName => event => {
     if (this.state[fieldName] !== event.target.value) {
@@ -104,6 +110,7 @@ class CreateIdea extends Component {
 
   render() {
     const { classes } = this.props;
+    const { title, content, inspiredBy, ideaDetails, ideaProblem } = this.state;
     return (
       <div className={classes.root}>
         <H6>{"Create Idea"}</H6>
@@ -115,33 +122,35 @@ class CreateIdea extends Component {
         >
           <TextField
             id="title"
-            label="Title"
+            defaultValue={title}
+            label={categories.title}
             className={classes.textField}
             onBlur={this.handleUpdateState("title")}
             required
           />
           <TextField
             id="content"
-            label="Description"
+            label={categories.content}
             className={classes.textField}
             onBlur={this.handleUpdateState("content")}
             fullWidth
             multiline
             rowsMax="10"
             rows="4"
+            defaultValue={content /*TODO:defaultValue dosn't work*/}
             required
           />
           <IconUploader onUploadComplete={this.handleImageUploadComplete} />
           <TextField
             id="inspiredBy"
-            label="By which Sparks is the Idea inspired?"
+            label={categories.inspiredBy}
             className={classes.textField}
             onBlur={this.handleUpdateState("inspiredBy")}
             fullWidth
           />
           <TextField
             id="ideaDetails"
-            label="Describe your idea in more detail (e.g., how is it used?)"
+            label={categories.ideaDetails}
             className={classes.textField}
             onBlur={this.handleUpdateState("ideaDetails")}
             fullWidth
@@ -152,7 +161,7 @@ class CreateIdea extends Component {
           />
           <TextField
             id="ideaProblem"
-            label="Which problem does the idea solve?"
+            label={categories.ideaProblem}
             className={classes.textField}
             onBlur={this.handleUpdateState("ideaProblem")}
             fullWidth
@@ -162,14 +171,14 @@ class CreateIdea extends Component {
             required
           />
           <SectionControl
-            label="In which of the following areas can the idea be applied?"
-            categories={categories.applicationAreas}
+            label={categories.applicationAreas.label}
+            categories={categories.applicationAreas.selection}
             hasCategories={this.state.applicationAreas}
             onChange={this.handleSelectCategory("applicationAreas")}
           />
           <SectionControl
-            label="Who is using the idea?"
-            categories={categories.ideaUsers}
+            label={categories.ideaUsers.label}
+            categories={categories.ideaUsers.selection}
             hasCategories={this.state.ideaUsers}
             onChange={this.handleSelectCategory("ideaUsers")}
           />
@@ -182,4 +191,9 @@ class CreateIdea extends Component {
   }
 }
 
-export default withStyles(styles)(connect()(CreateIdea));
+export default withStyles(styles)(
+  connect(
+    state => ({ ideas: state.ideas }),
+    null
+  )(CreateIdea)
+);

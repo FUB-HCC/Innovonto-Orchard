@@ -1,6 +1,6 @@
 import { combineReducers } from "redux";
 import clusteringReducer from "./clusteringReducer";
-import activeIdea from "./activeIdea";
+import activeSpark from "./activeSpark";
 import ideaReducer from "./ideaReducer";
 import undoable from "redux-undo";
 
@@ -10,7 +10,7 @@ const undoableReducer = undoable(clusteringReducer, {
 
 const reducer = combineReducers({
   clustering: undoableReducer,
-  activeIdea: activeIdea,
+  activeSpark: activeSpark,
   ideas: ideaReducer
 });
 
