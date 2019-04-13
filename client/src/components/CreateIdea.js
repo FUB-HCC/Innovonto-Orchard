@@ -47,11 +47,20 @@ class CreateIdea extends Component {
       ideaUsersOther: ""
     };
   }
-  componentDidMount(prevStat) {
+
+  componentDidMount() {
     if (this.props.ideaId) {
       const idea = this.props.ideas.find(i => i.id === this.props.ideaId);
       if (idea) this.setState(idea);
     }
+  }
+  componentWillReceiveProps(oldProps) {
+    console.log("RProps");
+
+    if (oldProps.ideaId !== this.props.ideaId) {
+      return this.forceUpdate();
+    }
+    return null;
   }
 
   handleUpdateState = fieldName => event => {
@@ -110,7 +119,12 @@ class CreateIdea extends Component {
 
   render() {
     const { classes } = this.props;
-    const { title, content, inspiredBy, ideaDetails, ideaProblem } = this.state;
+    var idea = {};
+    if (this.props.ideaId) {
+      idea = this.props.ideas.find(i => i.id === this.props.ideaId);
+    }
+    const { title, content, inspiredBy, ideaDetails, ideaProblem } = idea;
+    const { applicationAreas, ideaUsers } = this.state;
     return (
       <div className={classes.root}>
         <H6>{"Create Idea"}</H6>
@@ -122,14 +136,19 @@ class CreateIdea extends Component {
         >
           <TextField
             id="title"
+            key={"title" + title}
             defaultValue={title}
             label={categories.title}
             className={classes.textField}
             onBlur={this.handleUpdateState("title")}
             required
-          />
+          >
+            {title}
+          </TextField>
           <TextField
             id="content"
+            key={"content" + content}
+            defaultValue={content}
             label={categories.content}
             className={classes.textField}
             onBlur={this.handleUpdateState("content")}
@@ -143,6 +162,8 @@ class CreateIdea extends Component {
           <IconUploader onUploadComplete={this.handleImageUploadComplete} />
           <TextField
             id="inspiredBy"
+            key={"inspiredBy" + inspiredBy}
+            defaultValue={inspiredBy}
             label={categories.inspiredBy}
             className={classes.textField}
             onBlur={this.handleUpdateState("inspiredBy")}
@@ -150,6 +171,8 @@ class CreateIdea extends Component {
           />
           <TextField
             id="ideaDetails"
+            key={"ideaDetails" + ideaDetails}
+            defaultValue={ideaDetails}
             label={categories.ideaDetails}
             className={classes.textField}
             onBlur={this.handleUpdateState("ideaDetails")}
@@ -161,6 +184,8 @@ class CreateIdea extends Component {
           />
           <TextField
             id="ideaProblem"
+            key={"ideaProblem" + ideaProblem}
+            defaultValue={ideaProblem}
             label={categories.ideaProblem}
             className={classes.textField}
             onBlur={this.handleUpdateState("ideaProblem")}
@@ -173,13 +198,13 @@ class CreateIdea extends Component {
           <SectionControl
             label={categories.applicationAreas.label}
             categories={categories.applicationAreas.selection}
-            hasCategories={this.state.applicationAreas}
+            hasCategories={applicationAreas}
             onChange={this.handleSelectCategory("applicationAreas")}
           />
           <SectionControl
             label={categories.ideaUsers.label}
             categories={categories.ideaUsers.selection}
-            hasCategories={this.state.ideaUsers}
+            hasCategories={ideaUsers}
             onChange={this.handleSelectCategory("ideaUsers")}
           />
           <Button type="submit">

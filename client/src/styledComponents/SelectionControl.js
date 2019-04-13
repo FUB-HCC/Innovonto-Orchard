@@ -27,7 +27,7 @@ const styles = theme => ({
 const SelectionControl = ({
   classes,
   categories,
-  hasCategories,
+  hasCategories = [],
   onChange,
   label
 }) => {
