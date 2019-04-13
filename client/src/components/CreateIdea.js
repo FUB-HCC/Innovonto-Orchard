@@ -31,21 +31,23 @@ const styles = theme => ({
   }
 });
 
+const initState = {
+  created: "",
+  title: "",
+  content: "",
+  inspiredBy: "",
+  icon: "",
+  ideaDetails: "",
+  ideaProblem: "",
+  applicationAreas: [],
+  ideaUsers: [],
+  ideaUsersOther: ""
+};
+
 class CreateIdea extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      created: "",
-      title: "",
-      content: "",
-      inspiredBy: "",
-      icon: "",
-      ideaDetails: "",
-      ideaProblem: "",
-      applicationAreas: [],
-      ideaUsers: [],
-      ideaUsersOther: ""
-    };
+    this.state = initState;
   }
 
   componentDidMount() {
@@ -55,8 +57,6 @@ class CreateIdea extends Component {
     }
   }
   componentWillReceiveProps(oldProps) {
-    console.log("RProps");
-
     if (oldProps.ideaId !== this.props.ideaId) {
       return this.forceUpdate();
     }
@@ -83,7 +83,7 @@ class CreateIdea extends Component {
         hasCategories.splice(hasCategories.indexOf(elementName), 1);
       }
     }
-    this.setState({ hasCategories: hasCategories });
+    this.setState({ [fieldName]: hasCategories });
   };
 
   //TODO handle backend in redux action? evaluate.
@@ -102,6 +102,7 @@ class CreateIdea extends Component {
             response.data
           )
         );
+        this.setState(initState);
       })
       .catch(error => {
         console.log(error);
@@ -118,6 +119,7 @@ class CreateIdea extends Component {
   };
 
   render() {
+    console.log(this.state);
     const { classes } = this.props;
     var idea = {};
     if (this.props.ideaId) {
