@@ -27,13 +27,20 @@ apply plugin: 'java'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 apply plugin: 'com.palantir.docker'
+apply plugin: "maven"
 
 def registry = "registry.gitlab.com"
-group = "mackeprm/i2m-brainstorming-app-backend"
+def registryEndpoint = "mackeprm/i2m-brainstorming-app-backend"
+group = "de.fu-berlin.mi.hcc.innovonto.orchard"
+version = "1.0.0-SNAPSHOT"
 
 bootJar {
     classifier = 'standalone'
-    version = "0.0.2"
+    version = project.version
+}
+
+jar {
+    enabled = true
 }
 
 task unpack(type: Copy) {
@@ -44,7 +51,7 @@ task unpack(type: Copy) {
 
 docker {
     dockerfile file('src/main/docker/Dockerfile')
-    name registry + "/${project.group}/${bootJar.baseName}"
+    name registry + "/${registryEndpoint}/${bootJar.baseName}"
     copySpec.from(tasks.unpack.outputs).into("dependency")
     buildArgs(['DEPENDENCY': "dependency"])
     //TODO buildArgs([BUILD_VERSION: project.version])
