@@ -102,13 +102,12 @@ class CreateIdea extends Component {
             response.data
           )
         );
-        this.setState(initState);
+        //this.setState(initState);
       })
       .catch(error => {
         console.log(error);
+        event.preventDefault();
       });
-
-    event.preventDefault();
     return null;
   };
 
