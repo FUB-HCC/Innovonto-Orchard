@@ -5,5 +5,6 @@
     "height": 120,
     "contentHeight": 80,
     "fontSize": 10
-  }
+  },
+  "ServerResourceName": "http://localhost:8080"
 }

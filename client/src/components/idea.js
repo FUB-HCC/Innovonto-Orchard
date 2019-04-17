@@ -33,12 +33,14 @@ const Idea = ({
       <time className={classes.time}>
         <small>{date.toDateString()}</small>
       </time>
-      <img
-        className={classes.image}
-        height="120"
-        src={"http://localhost:8080" + iconPath}
-        alt="iconPicure"
-      />
+      {iconPath ? (
+        <img
+          className={classes.image}
+          height="120"
+          src={"http://localhost:8080" + iconPath}
+          alt="iconPicure"
+        />
+      ) : null}
       <div>
         <FormLabel>{categories.content}</FormLabel>
         <div>{content}</div>

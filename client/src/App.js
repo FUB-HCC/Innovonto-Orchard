@@ -1,5 +1,8 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import { Router } from "@reach/router";
+import { apiEndpoint } from "./utils";
+import { setIdeas } from "./actions";
 import {
   Board,
   Header,
@@ -8,8 +11,19 @@ import {
   Idea
 } from "./components";
 import { backgroundColor } from "./constants/color";
+import { ServerResourceName } from "./constants";
 
 class App extends Component {
+  componentDidMount() {
+    const ideas = apiEndpoint
+      .get(ServerResourceName + "/api/ideas")
+      .then(data => {
+        console.log(data);
+        this.props.dispatch(setIdeas(data.data._embedded.ideas));
+      })
+      .catch(error => console.log(error));
+  }
+
   render() {
     return (
       <div className="container-fluid" style={{ background: backgroundColor }}>
@@ -27,4 +41,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default connect()(App);

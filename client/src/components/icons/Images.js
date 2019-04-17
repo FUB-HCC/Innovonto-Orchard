@@ -1,6 +1,7 @@
 import React from "react";
 import { withStyles } from "@material-ui/core";
 import connect from "react-redux/es/connect/connect";
+import { ServerResourceName } from "../../constants";
 
 var styles = {
   iconPreview: {
@@ -10,8 +11,8 @@ var styles = {
 
 class Images extends React.Component {
   render() {
-    const { classes } = this.props;
-    return this.props.images.map((image, i) => (
+    const { classes, images } = this.props;
+    return images.map((image, i) => (
       <div key={i} className={classes.iconPreview}>
         <div
           onClick={() => this.props.removeImage(image.resourceName)}
@@ -22,7 +23,7 @@ class Images extends React.Component {
         <img
           style={{ maxWidth: 300 + "px" }}
           className="iconPreview"
-          src={image.qualifiedResourceName}
+          src={ServerResourceName + image.resourceName}
           alt=""
         />
       </div>

@@ -22,15 +22,18 @@ var styles = {
 };
 
 const ViewCreatedIdeas = ({ ideas = [], classes, ideaId }) => {
-  const displayIdeas = ideas.map(idea => (
-    <Idea
-      viewFull={ideaId === idea.id}
-      id={idea.id}
-      key={idea.id}
-      classes={classes}
-      {...idea}
-    />
-  ));
+  const displayIdeas = ideas
+    .sort((a, b) => a.created < b.created)
+    .map(idea => (
+      <Idea
+        viewFull={ideaId === idea.id}
+        id={idea.id}
+        key={idea.id}
+        classes={classes}
+        {...idea}
+      />
+    ));
+
   return (
     <div className={classes.root}>
       <H6>Created Ideas</H6>

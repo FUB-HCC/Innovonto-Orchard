@@ -18,7 +18,7 @@ const toastColor = {
 export default class IconUploader extends Component {
   state = {
     uploading: false,
-    images: []
+    images: this.props.images ? this.props.images : []
   };
 
   toast = notify.createShowQueue();
@@ -57,8 +57,8 @@ export default class IconUploader extends Component {
       .then(data => {
         console.log("Upload successful, response is:", data);
         const image = {
-          ...data,
-          qualifiedResourceName: "http://localhost:8080" + data.resourceName
+          ...data
+          //qualifiedResourceName: "http://localhost:8080" + data.resourceName
         };
         this.setState({
           uploading: false,

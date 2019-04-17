@@ -11,7 +11,7 @@ import TextNote from "./textNote";
 import LabelList from "./labelList";
 import CreateIdea from "./CreateIdea";
 import ViewCreatedIdeas from "./ViewCreatedIdeas";
-import Idea from "./idea";
+import Idea from "./Idea";
 export {
   Spark,
   renderSparks,

@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { navigate } from "@reach/router";
 import { H6, Button } from "../styledComponents";
 import { withStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
@@ -8,7 +9,7 @@ import { SectionControl } from "../styledComponents";
 import { categories } from "../data/categories.json";
 import { apiEndpoint } from "../utils";
 import IconUploader from "./icons/IconUploader";
-import { addIdea } from "../actions";
+import { addIdea, updateIdea } from "../actions";
 
 const styles = theme => ({
   container: {
@@ -88,27 +89,33 @@ class CreateIdea extends Component {
 
   //TODO handle backend in redux action? evaluate.
   handleFormSubmit = event => {
-    apiEndpoint
-      .post("/api/ideas", {
-        ...this.state,
-        created: Date.now(),
-        iconPath: this.state.icon.resourceName
-      })
+    event.preventDefault();
+    var method, uri, action;
+    if (this.props.ideaId) {
+      method = apiEndpoint.put;
+      uri = "/api/ideas/" + this.props.ideaId;
+      action = updateIdea;
+    } else {
+      method = apiEndpoint.post;
+      uri = "/api/ideas";
+      action = addIdea;
+    }
+    method(uri, {
+      ...this.state,
+      created: Date.now(),
+      iconPath: this.state.icon.resourceName
+    })
       .then(response => {
-        console.log(response);
+        console.log("response: ", response);
         this.props.dispatch(
-          addIdea(
-            response.data._links.idea.href.split("/").pop(),
-            response.data
-          )
+          action(response.data._links.idea.href.split("/").pop(), response.data)
         );
-        //this.setState(initState);
+        return navigate("/ideas");
       })
       .catch(error => {
         console.log(error);
-        event.preventDefault();
+        return null;
       });
-    return null;
   };
 
   handleImageUploadComplete = result => {
@@ -124,7 +131,14 @@ class CreateIdea extends Component {
     if (this.props.ideaId) {
       idea = this.props.ideas.find(i => i.id === this.props.ideaId);
     }
-    const { title, content, inspiredBy, ideaDetails, ideaProblem } = idea;
+    const {
+      title,
+      content,
+      inspiredBy,
+      ideaDetails,
+      ideaProblem,
+      iconPath
+    } = idea;
     const { applicationAreas, ideaUsers } = this.state;
     return (
       <div className={classes.root}>
@@ -160,7 +174,10 @@ class CreateIdea extends Component {
             defaultValue={content /*TODO:defaultValue dosn't work*/}
             required
           />
-          <IconUploader onUploadComplete={this.handleImageUploadComplete} />
+          <IconUploader
+            onUploadComplete={this.handleImageUploadComplete}
+            images={iconPath ? [{ resourceName: iconPath }] : null}
+          />
           <TextField
             id="inspiredBy"
             key={"inspiredBy" + inspiredBy}
