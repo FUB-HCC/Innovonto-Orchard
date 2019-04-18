@@ -12,7 +12,9 @@ import LabelList from "./labelList";
 import CreateIdea from "./CreateIdea";
 import ViewCreatedIdeas from "./ViewCreatedIdeas";
 import Idea from "./Idea";
+import InspiredBy from "./InspiredBy";
 export {
+  InspiredBy,
   Spark,
   renderSparks,
   Cluster,

@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { navigate } from "@reach/router";
-import { H6, Button } from "../styledComponents";
+import { H6, Button, SectionControl } from "../styledComponents";
 import { withStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 
-import { SectionControl } from "../styledComponents";
+import { InspiredBy } from "./";
 import { categories } from "../data/categories.json";
 import { apiEndpoint } from "../utils";
 import IconUploader from "./icons/IconUploader";
@@ -86,8 +86,6 @@ class CreateIdea extends Component {
     }
     this.setState({ [fieldName]: hasCategories });
   };
-
-  //TODO handle backend in redux action? evaluate.
   handleFormSubmit = event => {
     event.preventDefault();
     var method, uri, action;
@@ -124,7 +122,6 @@ class CreateIdea extends Component {
   };
 
   render() {
-    console.log(this.state);
     const { classes } = this.props;
     var idea = {};
     if (this.props.ideaId) {
@@ -156,9 +153,8 @@ class CreateIdea extends Component {
             className={classes.textField}
             onBlur={this.handleUpdateState("title")}
             required
-          >
-            {title}
-          </TextField>
+          />
+
           <TextField
             id="content"
             key={"content" + content}
@@ -176,14 +172,12 @@ class CreateIdea extends Component {
             onUploadComplete={this.handleImageUploadComplete}
             images={iconPath ? [{ resourceName: iconPath }] : null}
           />
-          <TextField
-            id="inspiredBy"
-            key={"inspiredBy" + inspiredBy}
-            defaultValue={inspiredBy}
+
+          <InspiredBy
+            inspiredBy={inspiredBy}
             label={categories.inspiredBy}
             className={classes.textField}
-            onBlur={this.handleUpdateState("inspiredBy")}
-            fullWidth
+            onSave={this.handleUpdateState("inspiredBy")}
           />
           <TextField
             id="ideaDetails"
