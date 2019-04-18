@@ -33,7 +33,7 @@ const styles = theme => ({
 });
 
 const initState = {
-  created: "",
+  created: null,
   title: "",
   content: "",
   inspiredBy: "",
@@ -102,15 +102,14 @@ class CreateIdea extends Component {
     }
     method(uri, {
       ...this.state,
-      created: Date.now(),
+      created: this.state.created ? this.state.created : Date.now(),
       iconPath: this.state.icon.resourceName
     })
       .then(response => {
-        console.log("response: ", response);
-        this.props.dispatch(
-          action(response.data._links.idea.href.split("/").pop(), response.data)
-        );
-        return navigate("/ideas");
+        const { data } = response;
+        const id = data._links.idea.href.split("/").pop();
+        this.props.dispatch(action(id, data));
+        return navigate("/ideas/" + id);
       })
       .catch(error => {
         console.log(error);
@@ -171,7 +170,6 @@ class CreateIdea extends Component {
             multiline
             rowsMax="10"
             rows="4"
-            defaultValue={content /*TODO:defaultValue dosn't work*/}
             required
           />
           <IconUploader

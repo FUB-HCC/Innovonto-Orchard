@@ -9,7 +9,7 @@ const ideaReducer = (state = [], { type, id, data, ideas }) => {
       }));
     case "UPDATE_IDEA":
       var index = state.findIndex(idea => idea.id === id);
-      if (index)
+      if (index >= 0)
         return [
           ...state.slice(0, index),
           { ...data, id },

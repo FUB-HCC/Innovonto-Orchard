@@ -15,7 +15,7 @@ import { ServerResourceName } from "./constants";
 
 class App extends Component {
   componentDidMount() {
-    const ideas = apiEndpoint
+    apiEndpoint
       .get(ServerResourceName + "/api/ideas")
       .then(data => {
         console.log(data);

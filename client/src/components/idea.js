@@ -1,7 +1,5 @@
 import React from "react";
 import { Link } from "@reach/router";
-import { withStyles } from "@material-ui/core/styles";
-import { connect } from "react-redux";
 import { categories } from "../data/categories.json";
 import { Section, Li, EditButton } from "../styledComponents";
 import FormLabel from "@material-ui/core/FormLabel";
@@ -19,7 +17,7 @@ const Idea = ({
 }) => {
   const date = new Date(created);
   return (
-    <div className="clearfix">
+    <div className="clearfix" id={id}>
       <Link to={"/ideas/" + id}>
         <Section>{title}</Section>
       </Link>

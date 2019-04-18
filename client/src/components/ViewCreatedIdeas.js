@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from "react";
 import { withStyles } from "@material-ui/core/styles";
 import { connect } from "react-redux";
 import { H6 } from "../styledComponents";
@@ -21,26 +21,36 @@ var styles = {
   idea: {}
 };
 
-const ViewCreatedIdeas = ({ ideas = [], classes, ideaId }) => {
-  const displayIdeas = ideas
-    .sort((a, b) => a.created < b.created)
-    .map(idea => (
-      <Idea
-        viewFull={ideaId === idea.id}
-        id={idea.id}
-        key={idea.id}
-        classes={classes}
-        {...idea}
-      />
-    ));
+class ViewCreatedIdeas extends Component {
+  componentDidMount() {
+    const { ideaId } = this.props;
+    if (ideaId) {
+      document.getElementById(ideaId).scrollIntoView();
+    }
+  }
 
-  return (
-    <div className={classes.root}>
-      <H6>Created Ideas</H6>
-      {displayIdeas}
-    </div>
-  );
-};
+  render() {
+    const { ideas = [], classes, ideaId } = this.props;
+    const displayIdeas = ideas
+      .sort((a, b) => new Date(b.created) - new Date(a.created))
+      .map(idea => (
+        <Idea
+          viewFull={ideaId === idea.id}
+          id={idea.id}
+          key={idea.id}
+          classes={classes}
+          {...idea}
+        />
+      ));
+
+    return (
+      <div className={classes.root}>
+        <H6>Created Ideas</H6>
+        {displayIdeas}
+      </div>
+    );
+  }
+}
 
 export default withStyles(styles)(
   connect(
