@@ -4,6 +4,7 @@ import { categories } from "../data/categories.json";
 import { Section, Li, EditButton } from "../styledComponents";
 import FormLabel from "@material-ui/core/FormLabel";
 import { edit } from "../icons";
+import { BASE } from "../App";
 
 const Idea = ({
   title,
@@ -18,11 +19,11 @@ const Idea = ({
   const date = new Date(created);
   return (
     <div className="clearfix" id={id}>
-      <Link to={"/ideas/" + id}>
+      <Link to={BASE + "/ideas/" + id}>
         <Section>{title}</Section>
       </Link>
       {viewFull ? (
-        <Link to={"/create-idea/" + id}>
+        <Link to={BASE + "/create-idea/" + id}>
           <EditButton>
             <img alt="edit" height="10" src={edit} />
           </EditButton>

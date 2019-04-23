@@ -13,6 +13,8 @@ import {
 import { backgroundColor } from "./constants/color";
 import { ServerResourceName } from "./constants";
 
+export const BASE = "/apps/orchard";
+
 class App extends Component {
   componentDidMount() {
     apiEndpoint
@@ -28,7 +30,7 @@ class App extends Component {
     return (
       <div className="container-fluid" style={{ background: backgroundColor }}>
         <Header />
-        <Router>
+        <Router basepath={BASE}>
           <Board path="/" />
           <CreateIdea path="/create-idea/:ideaId" />
           <CreateIdea path="/create-idea" />

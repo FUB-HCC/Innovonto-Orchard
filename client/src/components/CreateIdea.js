@@ -10,6 +10,7 @@ import { categories } from "../data/categories.json";
 import { apiEndpoint } from "../utils";
 import IconUploader from "./icons/IconUploader";
 import { addIdea, updateIdea } from "../actions";
+import { BASE } from "../App";
 
 const styles = theme => ({
   container: {
@@ -107,7 +108,8 @@ class CreateIdea extends Component {
         const { data } = response;
         const id = data._links.idea.href.split("/").pop();
         this.props.dispatch(action(id, data));
-        return navigate("/ideas/" + id);
+
+        return navigate(BASE + "/ideas/" + id);
       })
       .catch(error => {
         console.log(error);
