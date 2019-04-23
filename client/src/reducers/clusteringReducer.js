@@ -9,7 +9,7 @@ const initialState = {
   nextIndex: 0
 };
 
-export default (state = { ...initialState, stackSparks: [] }, action) => {
+export default (state = { ...initialState }, action) => {
   const { type } = action;
   var spark, newState, clusters, stackSparks, c;
   switch (type) {
@@ -61,7 +61,7 @@ export default (state = { ...initialState, stackSparks: [] }, action) => {
         ]
       };
     case "RESET_STATE":
-      return { ...initialState, stackSparks: [] };
+      return { ...initialState };
     case "UPDATE_SPARK":
       const { updateObj } = action;
       [spark, newState] = removeSparkFromSource(

@@ -34,7 +34,7 @@ class FileSelector extends React.Component {
     console.log(sparks);
 
     this.props.dispatch(loadSparks(sparks));
-    console.log("FOO");
+    console.log("Done loading sparks.");
   }
 
   handleChange(selectorFile) {
