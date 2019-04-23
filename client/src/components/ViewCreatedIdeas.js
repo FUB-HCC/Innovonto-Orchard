@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import { withStyles } from "@material-ui/core/styles";
 import { connect } from "react-redux";
-import { H6 } from "../styledComponents";
+import { Button, H6 } from "../styledComponents";
 import { Idea } from "./";
+import { exportIdeasAsJsonLd } from "../utils/exportIdeas";
 
 var styles = {
   root: {
@@ -18,7 +19,10 @@ var styles = {
     marginRight: 10
   },
   content: {},
-  idea: {}
+  idea: {},
+  exportButton: {
+    textAlign: "center"
+  }
 };
 
 class ViewCreatedIdeas extends Component {
@@ -47,6 +51,9 @@ class ViewCreatedIdeas extends Component {
       <div className={classes.root}>
         <H6>Created Ideas</H6>
         {displayIdeas}
+        <div className={classes.exportButton}>
+          <Button onClick={() => exportIdeasAsJsonLd(ideas)}>{"Export"}</Button>
+        </div>
       </div>
     );
   }

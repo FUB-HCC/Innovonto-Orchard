@@ -44,7 +44,8 @@ public class Idea {
     private String ideaProblem;
     private String ideaUsersOther;
 
-    //TODO how to set the sparks?
+    @ElementCollection
+    private List<String> inspiredBy;
 
     @Column(name = "icon_path", nullable = true)
     private String iconPath;
@@ -183,5 +184,13 @@ public class Idea {
 
     public void setIdeaUsersOther(String ideaUsersOther) {
         this.ideaUsersOther = ideaUsersOther;
+    }
+
+    public List<String> getInspiredBy() {
+        return inspiredBy;
+    }
+
+    public void setInspiredBy(List<String> inspiredBy) {
+        this.inspiredBy = inspiredBy;
     }
 }

@@ -37,7 +37,7 @@ const initState = {
   created: null,
   title: "",
   content: "",
-  inspiredBy: "",
+  inspiredBy: [],
   icon: "",
   ideaDetails: "",
   ideaProblem: "",
@@ -58,6 +58,7 @@ class CreateIdea extends Component {
       if (idea) this.setState(idea);
     }
   }
+
   componentWillReceiveProps(oldProps) {
     if (oldProps.ideaId !== this.props.ideaId) {
       return this.forceUpdate();
@@ -67,8 +68,22 @@ class CreateIdea extends Component {
 
   handleUpdateState = fieldName => event => {
     if (this.state[fieldName] !== event.target.value) {
+      console.log("Setstate" + fieldName + event.target.value);
       this.setState({ [fieldName]: event.target.value });
     }
+  };
+
+  handleUpdateInspiredBy = () => event => {
+    const fieldName = "inspiredBy";
+    const sparks = event.target.value;
+    var fieldValue = [];
+    if (sparks !== null) {
+      sparks.forEach(function(spark) {
+        fieldValue.push(spark["@id"]);
+      });
+    }
+    console.log(fieldValue);
+    this.setState({ [fieldName]: fieldValue });
   };
 
   handleSelectCategory = fieldName => event => {
@@ -179,7 +194,7 @@ class CreateIdea extends Component {
             inspiredBy={inspiredBy}
             label={categories.inspiredBy}
             className={classes.textField}
-            onSave={this.handleUpdateState("inspiredBy")}
+            onSave={this.handleUpdateInspiredBy()}
           />
           <TextField
             id="ideaDetails"

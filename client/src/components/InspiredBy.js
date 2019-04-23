@@ -27,6 +27,7 @@ class InspiredBy extends Component {
 
   render() {
     const { inspiredBy, label, className, onSave } = this.props;
+    //TODO set state based on array given in "inspiredBy" props
     const { value, spark } = this.state;
     return (
       <div>
