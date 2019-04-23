@@ -47,7 +47,7 @@ export default class IconUploader extends Component {
     }
 
     apiEndpoint
-      .post("/api/icons/", formData)
+      .post("/api/v2/icons/", formData)
       .then(res => {
         if (res.status !== 200) {
           throw res;

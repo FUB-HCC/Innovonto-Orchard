@@ -91,11 +91,11 @@ class CreateIdea extends Component {
     var method, uri, action;
     if (this.props.ideaId) {
       method = apiEndpoint.put;
-      uri = "/api/ideas/" + this.props.ideaId;
+      uri = "/api/v2/ideas/" + this.props.ideaId;
       action = updateIdea;
     } else {
       method = apiEndpoint.post;
-      uri = "/api/ideas";
+      uri = "/api/v2/ideas";
       action = addIdea;
     }
     method(uri, {

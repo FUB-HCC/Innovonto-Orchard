@@ -16,7 +16,7 @@ import { ServerResourceName } from "./constants";
 class App extends Component {
   componentDidMount() {
     apiEndpoint
-      .get(ServerResourceName + "/api/ideas")
+      .get(ServerResourceName + "/api/v2/ideas")
       .then(data => {
         console.log(data);
         this.props.dispatch(setIdeas(data.data._embedded.ideas));

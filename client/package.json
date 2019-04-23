@@ -2,6 +2,7 @@
   "name": "visual-idea-clustering",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://ideas-to-market/apps/orchard",
   "dependencies": {
     "@babel/core": "7.1.0",
     "@emotion/core": "^10.0.5",

@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 @RestController
-@RequestMapping("/api/icons")
+@RequestMapping("/api/v2/icons")
 public class IdeaIconController {
     private static final Logger log = LoggerFactory.getLogger(IdeaIconController.class);
 
@@ -33,7 +33,7 @@ public class IdeaIconController {
 
         try {
             final String filename = iconService.storeFile(file);
-            final String resourceName = "/api/icons/resource/" + filename;
+            final String resourceName = "/api/v2/icons/resource/" + filename;
             final IdeaIconResponse ideaIconResponse = new IdeaIconResponse(file.getOriginalFilename(), resourceName);
             return new ResponseEntity<>(ideaIconResponse, HttpStatus.OK);
         } catch (Exception e) {
@@ -47,7 +47,7 @@ public class IdeaIconController {
     public ResponseEntity<Resource> downloadFile(HttpServletRequest request) {
         String requestedUri = (String)
                 request.getAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE);
-        String filePath = requestedUri.substring("/api/icons/resource/".length());
+        String filePath = requestedUri.substring("/api/v2/icons/resource/".length());
         log.info("file request: " + filePath);
         // Load file as Resource
         Resource resource = iconService.loadFileAsResource(filePath);

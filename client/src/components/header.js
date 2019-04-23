@@ -8,6 +8,7 @@ import { Button, H6, H2 } from "../styledComponents";
 import { Link } from "@reach/router";
 import { downloadState } from "../utils";
 import { resetState } from "../actions";
+import { BASE } from "../App";
 
 var styles = {
   header: {
@@ -36,15 +37,15 @@ const Header = ({ resetState, ...props }) => (
       <Button>{"Import Sparks"}</Button>
     </div>
     <div className="col" style={styles.h}>
-      <Link to="/">
+      <Link to={BASE}>
         <H2>{App_Name}</H2>
       </Link>
     </div>
     <div className="col-auto" style={styles.h}>
-      <Link to="/ideas">
+      <Link to={BASE + "/ideas"}>
         <H6>{"Ideas"}</H6>
       </Link>
-      <Link to="/create-idea">
+      <Link to={BASE + "/create-idea"}>
         <H6>{"Create Idea"}</H6>
       </Link>
       <img alt="logo" height="80" src={logoI2M} />
