@@ -13,6 +13,8 @@ import CreateIdea from "./CreateIdea";
 import ViewCreatedIdeas from "./ViewCreatedIdeas";
 import Idea from "./idea";
 import InspiredBy from "./InspiredBy";
+import FileSelector from "./FileSelector";
+
 export {
   InspiredBy,
   Spark,
@@ -31,5 +33,6 @@ export {
   LabelList,
   CreateIdea,
   ViewCreatedIdeas,
-  Idea
+  Idea,
+  FileSelector
 };

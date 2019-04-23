@@ -9,6 +9,7 @@ import { Link } from "@reach/router";
 import { downloadState } from "../utils";
 import { resetState } from "../actions";
 import { BASE } from "../App";
+import FileSelector from "./FileSelector";
 
 var styles = {
   header: {
@@ -34,7 +35,7 @@ const Header = ({ resetState, ...props }) => (
       <Button onClick={resetState}>
         {"Reset"} <img alt="reset" height={20} src={reset} />
       </Button>
-      <Button>{"Import Sparks"}</Button>
+      <FileSelector />
     </div>
     <div className="col" style={styles.h}>
       <Link to={BASE}>

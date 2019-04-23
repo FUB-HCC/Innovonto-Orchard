@@ -1,7 +1,7 @@
 import Cluster from "../models/cluster";
 import { getShape } from "../components";
-import { getDATA } from "../data";
 import { isEqual } from "lodash";
+
 const initialState = {
   stackSparks: [],
   boardSparks: [],
@@ -9,10 +9,7 @@ const initialState = {
   nextIndex: 0
 };
 
-export default (
-  state = { ...initialState, stackSparks: getDATA() },
-  action
-) => {
+export default (state = { ...initialState, stackSparks: [] }, action) => {
   const { type } = action;
   var spark, newState, clusters, stackSparks, c;
   switch (type) {
@@ -30,6 +27,7 @@ export default (
       return newState;
     case "LOAD_SPARKS":
       const { sparks } = action;
+      //TODO merge the sparks (this doesn't work right now
       stackSparks = [...state.stackSparks, ...sparks];
       return {
         ...state,
@@ -63,7 +61,7 @@ export default (
         ]
       };
     case "RESET_STATE":
-      return { ...initialState, stackSparks: getDATA() };
+      return { ...initialState, stackSparks: [] };
     case "UPDATE_SPARK":
       const { updateObj } = action;
       [spark, newState] = removeSparkFromSource(
@@ -93,6 +91,7 @@ function removeElement(id, array) {
   let resultArray = [...array.slice(0, index), ...array.slice(index + 1)];
   return [array[index], resultArray];
 }
+
 function removeSparkFromSource(state, source, id, keepSource = false) {
   let boardSparks, stackSparks, clusters, spark, cluster, sparkList;
   switch (source.type) {
