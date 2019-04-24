@@ -28,7 +28,10 @@ export default (state = { ...initialState }, action) => {
     case "LOAD_SPARKS":
       const { sparks } = action;
       //TODO merge the sparks (this doesn't work right now
-      stackSparks = [...state.stackSparks, ...sparks];
+      stackSparks = [
+        ...state.stackSparks,
+        ...sparks.filter(({ id }) => state.stackSparks.every(s => s.id === id))
+      ];
       return {
         ...state,
         stackSparks: stackSparks,

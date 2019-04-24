@@ -1,6 +1,7 @@
-import * as React from "react";
+import React from "react";
 import { loadSparks } from "../actions";
-import connect from "react-redux/es/connect/connect";
+import { connect } from "react-redux";
+import { Button } from "../styledComponents";
 
 const parseSparksFrom = doc => {
   return doc["@graph"].map((spark, i) => {
@@ -22,35 +23,35 @@ const mapDispatchToProps = dispatch => ({
 });
 
 class FileSelector extends React.Component {
-  constructor(props) {
-    super(props);
-    this.handleChange = this.handleChange.bind(this);
-    this.parseSparksFromFileInput = this.parseSparksFromFileInput.bind(this);
-  }
-
-  parseSparksFromFileInput(e) {
+  parseSparksFromFileInput = e => {
     const content = e.target.result;
     const sparks = parseSparksFrom(JSON.parse(content));
     console.log(sparks);
 
     this.props.dispatch(loadSparks(sparks));
     console.log("Done loading sparks.");
-  }
+  };
 
-  handleChange(selectorFile) {
-    console.log(selectorFile);
+  handleImport = event => {
+    console.log(event.target.files[0]);
     const fileReader = new FileReader();
     fileReader.onloadend = this.parseSparksFromFileInput;
-    fileReader.readAsText(selectorFile);
-  }
+    fileReader.readAsText(event.target.files[0]);
+  };
 
   render() {
     return (
       <div>
         <input
+          onChange={this.handleImport}
+          style={{ display: "none" }}
+          id="contained-button-file"
+          //multiple
           type="file"
-          onChange={e => this.handleChange(e.target.files[0])}
         />
+        <label htmlFor="contained-button-file">
+          <Button component="span">{"Import Sparks"}</Button>
+        </label>
       </div>
     );
   }
