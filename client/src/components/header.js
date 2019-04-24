@@ -35,6 +35,7 @@ const Header = ({ resetState, ...props }) => (
       <Button onClick={resetState}>
         {"Reset"} <img alt="reset" height={20} src={reset} />
       </Button>
+
       <FileSelector />
     </div>
     <div className="col" style={styles.h}>
