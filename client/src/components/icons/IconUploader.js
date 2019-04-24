@@ -43,7 +43,8 @@ export default class IconUploader extends Component {
     }
 
     if (errs.length) {
-      return errs.forEach(err => this.toast(err, "custom", 2000, toastColor));
+      errs.forEach(err => this.toast(err, "custom", 2000, toastColor));
+      this.setState({ uploading: false });
     }
 
     apiEndpoint
