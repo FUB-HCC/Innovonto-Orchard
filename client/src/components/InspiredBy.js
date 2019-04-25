@@ -9,9 +9,11 @@ class InspiredBy extends Component {
     console.log(props);
     this.state = {
       filteredSparks: [],
-      savedSparks: props.inspiredBy.map(id =>
-        props.sparks.find(s => s.id === id.split("/").pop())
-      )
+      savedSparks: props.inspiredBy
+        ? props.inspiredBy.map(id =>
+            props.sparks.find(s => s.id === id.split("/").pop())
+          )
+        : []
     };
   }
 
@@ -35,6 +37,7 @@ class InspiredBy extends Component {
   handleRemoveSpark = sparkId => {
     var { filteredSparks, savedSparks } = this.state;
     var index = filteredSparks.findIndex(s => s.id === sparkId);
+
     if (index) filteredSparks.splice(index, 1);
     var index = savedSparks.findIndex(s => s.id === sparkId);
     if (index) savedSparks.splice(index, 1);
