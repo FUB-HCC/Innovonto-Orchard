@@ -1,6 +1,5 @@
 import React from "react";
 import { withStyles } from "@material-ui/core";
-import connect from "react-redux/es/connect/connect";
 import { ServerResourceName } from "../../constants";
 
 var styles = {

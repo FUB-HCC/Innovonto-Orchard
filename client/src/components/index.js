@@ -1,4 +1,4 @@
-import Spark, { renderSparks } from "./spark";
+import Spark, { renderSparks, SparkInfo } from "./spark";
 import Cluster, { renderClusters, getShape } from "./cluster";
 import Board from "./board";
 import Header from "./header";
@@ -14,10 +14,13 @@ import ViewCreatedIdeas from "./ViewCreatedIdeas";
 import Idea from "./idea";
 import InspiredBy from "./InspiredBy";
 import FileSelector from "./FileSelector";
+import InspiredByList from "./InspiredByList";
 
 export {
+  InspiredByList,
   InspiredBy,
   Spark,
+  SparkInfo,
   renderSparks,
   Cluster,
   renderClusters,

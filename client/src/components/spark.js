@@ -4,7 +4,7 @@ import { setActiveSpark } from "../actions";
 import Draggable from "./draggable";
 import { sparkColor } from "../constants/color";
 import { sparkSize } from "./../constants/index.json";
-import { H6, LabelIcon, TextnoteIcon } from "../styledComponents";
+import { H6, LabelIcon, TextnoteIcon, Button } from "../styledComponents";
 
 export const renderSparks = (sparks, container, dropZone) => {
   if (!sparks) return null;
@@ -140,4 +140,27 @@ Spark = connect(
   mapDispatchToProps
 )(Spark);
 
+export const SparkInfo = ({
+  title,
+  labels,
+  textnote,
+  content,
+  removeSpark
+}) => {
+  return (
+    <div>
+      <H6>
+        {removeSpark ? (
+          <Button className="float-left" onClick={removeSpark}>
+            X
+          </Button>
+        ) : null}
+        {title || "Spark"}
+        {labels && labels.length ? <LabelIcon /> : null}
+        {textnote ? <TextnoteIcon /> : null}
+      </H6>
+      <div>{content}</div>
+    </div>
+  );
+};
 export default Spark;

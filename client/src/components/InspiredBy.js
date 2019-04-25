@@ -1,61 +1,81 @@
 import React, { Component } from "react";
-import TextField from "@material-ui/core/TextField";
 import { connect } from "react-redux";
-import { Spark } from "./";
+import TextField from "@material-ui/core/TextField";
+import { InspiredByList } from "./";
 
 class InspiredBy extends Component {
-  state = {
-    value: "",
-    spark: null
-  };
+  constructor(props) {
+    super(props);
+    console.log(props);
+    this.state = {
+      filteredSparks: [],
+      savedSparks: props.inspiredBy.map(id =>
+        props.sparks.find(s => s.id === id.split("/").pop())
+      )
+    };
+  }
 
   handleOnChange = event => {
     const value = event.target.value.trim();
     const { sparks } = this.props;
-    var spark;
+    const { savedSparks } = this.state;
+    var filteredSparks;
     if (value.length > 0) {
-      spark = sparks.filter(s =>
-        value.split(" ").includes(s.title.split(" ")[1])
+      filteredSparks = sparks.filter(
+        s =>
+          value.split(" ").includes(s.title.split(" ")[1]) &&
+          !savedSparks.includes(s)
       );
-      if (spark) {
-        this.setState({ spark });
-      }
+      this.setState({ filteredSparks });
     } else {
-      this.setState({ spark: null });
+      this.setState({ filteredSparks: [] });
     }
   };
 
+  handleRemoveSpark = sparkId => {
+    var { filteredSparks, savedSparks } = this.state;
+    var index = filteredSparks.findIndex(s => s.id === sparkId);
+    if (index) filteredSparks.splice(index, 1);
+    var index = savedSparks.findIndex(s => s.id === sparkId);
+    if (index) savedSparks.splice(index, 1);
+    this.setState({ filteredSparks, savedSparks });
+  };
+
   render() {
-    const { inspiredBy, label, className, onSave } = this.props;
+    const { label, className, onSave, sparks } = this.props;
     //TODO set state based on array given in "inspiredBy" props
-    const { value, spark } = this.state;
+
+    const { filteredSparks, savedSparks } = this.state;
     return (
       <div>
         <TextField
           id="inspiredBy"
           key={"inspiredBy"}
-          defaultValue={value}
           label={label}
           className={className}
           onChange={this.handleOnChange}
-          onBlur={() => onSave({ target: { value: spark } })}
+          onBlur={() =>
+            onSave({ target: { value: [...filteredSparks, ...savedSparks] } })
+          }
           fullWidth
         />
-        {spark
-          ? spark.map(s => (
-              <Spark key={s.id} data={s} container={{ type: "CLUSTER" }} />
-            ))
-          : null}
+        <InspiredByList
+          sparks={[...filteredSparks, ...savedSparks]}
+          removeSpark={this.handleRemoveSpark}
+        />
       </div>
     );
   }
 }
 
 export default connect(
-  state => ({ sparks: getSparks(state.clustering.present) }),
+  state => getSparks(state),
   null
 )(InspiredBy);
 
-const getSparks = ({ boardSparks, clusters, stackSparks }) => {
-  return [...boardSparks, ...stackSparks, ...clusters.flatMap(c => c.sparks)];
+export const getSparks = state => {
+  const { boardSparks, clusters, stackSparks } = state.clustering.present;
+  return {
+    sparks: [...boardSparks, ...stackSparks, ...clusters.flatMap(c => c.sparks)]
+  };
 };

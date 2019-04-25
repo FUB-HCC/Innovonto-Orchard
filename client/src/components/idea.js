@@ -1,4 +1,7 @@
 import React from "react";
+import { connect } from "react-redux";
+import { InspiredByList } from "./";
+import { getSparks } from "./InspiredBy";
 import { Link } from "@reach/router";
 import { categories } from "../data/categories.json";
 import { Section, Li, EditButton } from "../styledComponents";
@@ -49,16 +52,21 @@ const Idea = ({
   );
 };
 
-const FullContent = ({
+var FullContent = ({
   inspiredBy,
   ideaDetails,
   ideaProblem,
   applicationAreas,
-  ideaUsers
+  ideaUsers,
+  sparks
 }) => (
   <div>
     <FormLabel>{categories.inspiredBy}</FormLabel>
-    <div>{inspiredBy}</div>
+    <InspiredByList
+      sparks={sparks.filter(s =>
+        inspiredBy.map(i => i.split("/").pop()).includes(s.id)
+      )}
+    />
     <FormLabel>{categories.ideaDetails}</FormLabel>
     <div>{ideaDetails}</div>
     <FormLabel>{categories.ideaProblem}</FormLabel>
@@ -77,5 +85,10 @@ const FullContent = ({
     </ul>
   </div>
 );
+
+FullContent = connect(
+  state => getSparks(state),
+  null
+)(FullContent);
 
 export default Idea;

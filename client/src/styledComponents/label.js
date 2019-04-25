@@ -9,17 +9,21 @@ const Li = styled.li({
   padding: ".1em .6em"
 });
 
-const XButton = styled.button({
-  backgroundColor: "#f1f8ff",
-  border: 0,
-  borderBottomRightRadius: 3,
-  borderLeft: "1px solid #b4d9ff",
-  borderTopRightRadius: 3,
-  color: "#6a737d",
-  display: "inline-block",
-  width: 26,
-  fontSize: 14,
-  marginRight: "-.6em"
-});
+const XButton = styled.button(
+  {
+    backgroundColor: "#f1f8ff",
+    border: 0,
+    borderBottomRightRadius: 3,
+    borderLeft: "1px solid #b4d9ff",
+    borderTopRightRadius: 3,
+    color: "#6a737d",
+    display: "inline-block",
+    fontSize: 14,
+    marginRight: "-.6em"
+  },
+  ({ size = 26 }) => ({
+    width: size
+  })
+);
 
 export { Li, XButton };
