@@ -36,7 +36,8 @@ export default class IconUploader extends Component {
       if (types.every(type => file.type !== type)) {
         errs.push(`'${file.type}' is not a supported format`);
       }
-      if (file.size > 150000) {
+      //Should be 3 MB
+      if (file.size > 3145728) {
         errs.push(`'${file.name}' is too large, please pick a smaller file`);
       }
       formData.append("file", file);

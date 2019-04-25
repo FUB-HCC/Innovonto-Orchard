@@ -101,17 +101,35 @@ export const exportIdeasAsJsonLd = state => {
 };
 
 //Who is using the idea?
-function getIdeaUsers(idea) {
-  let users = idea.ideaUsers;
+function getIdeaUsers(idea, nextLocalId) {
+  const result = [];
+  let localId = nextLocalId;
+  idea.ideaUsers.forEach(function(subcategory) {
+    result.push({
+      "@id": "_:b" + ++localId,
+      title: subcategory
+    });
+  });
   if (idea.ideaUsersOther) {
-    users.push(idea.ideaUsersOther);
+    result.push({
+      "@id": "_:b" + ++localId,
+      title: idea.ideaUsersOther
+    });
   }
-  return users;
+  return result;
 }
 
 //In which of the following areas can the idea be applied?
-function getApplicationAreas(idea) {
-  return idea.applicationAreas;
+function getApplicationAreas(idea, nextLocalId) {
+  const result = [];
+  let localId = nextLocalId;
+  idea.applicationAreas.forEach(function(subcategory) {
+    result.push({
+      "@id": "_:b" + ++localId,
+      title: subcategory
+    });
+  });
+  return result;
 }
 
 function convert(ideas) {
@@ -121,6 +139,10 @@ function convert(ideas) {
   let graph = [];
   let nextLocalId = 0;
   ideas.forEach(function(idea) {
+    const applicationAreas = getApplicationAreas(idea, nextLocalId);
+    nextLocalId += applicationAreas.length;
+    const ideaUsers = getIdeaUsers(idea, nextLocalId);
+    nextLocalId += ideaUsers.length;
     const ideaExportObject = {
       "@id": "http://purl.org/innovonto/ideas/" + idea.id,
       "@type": "gi2mo:Idea",
@@ -139,12 +161,12 @@ function convert(ideas) {
         {
           "@id": "_:b" + ++nextLocalId,
           title: "Usage Area",
-          hasSubCategory: getApplicationAreas(idea)
+          hasSubCategory: applicationAreas
         },
         {
           "@id": "_:b" + ++nextLocalId,
           title: "Target Group",
-          hasSubCategory: getIdeaUsers(idea)
+          hasSubCategory: ideaUsers
         }
       ],
       textualRefinement: [

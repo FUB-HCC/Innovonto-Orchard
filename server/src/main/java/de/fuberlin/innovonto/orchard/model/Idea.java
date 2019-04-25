@@ -8,7 +8,7 @@ import java.util.UUID;
 @Entity
 public class Idea {
     static final int MAX_TITLE_LENGTH = 2_000;
-    static final int MAX_CONTENT_LENGTH = 5_000;
+    static final int MAX_CONTENT_LENGTH = 10_000;
 
     private static final String currentContest = "debug-contest";
     private static final String unknownCreator = "unknown";
