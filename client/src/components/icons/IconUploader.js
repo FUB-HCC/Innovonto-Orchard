@@ -1,12 +1,9 @@
 import React, { Component } from "react";
 import Notifications, { notify } from "react-notify-toast";
-import { css } from "@emotion/core";
 import { ScaleLoader } from "react-spinners";
 import Images from "./Images";
 import Buttons from "./Buttons";
 import { apiEndpoint } from "../../utils";
-import { withStyles } from "@material-ui/core";
-import connect from "react-redux/es/connect/connect";
 
 const types = ["image/png", "image/jpeg", "image/gif"];
 
@@ -22,6 +19,12 @@ export default class IconUploader extends Component {
   };
 
   toast = notify.createShowQueue();
+
+  componentWillReceiveProps({ images }) {
+    if (images !== this.props.images) {
+      this.setState({ images });
+    }
+  }
 
   onChange = e => {
     const errs = [];
@@ -49,7 +52,7 @@ export default class IconUploader extends Component {
     }
 
     apiEndpoint
-      .post("/api/v2/icons/", formData)
+      .post("/icons/", formData)
       .then(res => {
         if (res.status !== 200) {
           throw res;
@@ -82,7 +85,6 @@ export default class IconUploader extends Component {
 
   render() {
     const { uploading, images } = this.state;
-
     const content = () => {
       switch (true) {
         case uploading:

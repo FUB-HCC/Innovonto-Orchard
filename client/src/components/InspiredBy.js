@@ -28,7 +28,7 @@ class InspiredBy extends Component {
 
   handleRemoveSpark = sparkId => {
     var { inspiredBy } = this.props;
-    var index = inspiredBy.findIndex(i => i.split("/").pop() == sparkId);
+    var index = inspiredBy.findIndex(i => i.split("/").pop() === sparkId);
     if (index > -1) {
       this.props.onSave([
         ...inspiredBy.slice(0, index),

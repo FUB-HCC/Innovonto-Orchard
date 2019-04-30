@@ -8,9 +8,9 @@ import { Button, H6, H2 } from "../styledComponents";
 import { Link } from "@reach/router";
 import { downloadState } from "../utils";
 import { resetState } from "../actions";
-import { BASE } from "../App";
 import FileSelector from "./FileSelector";
 
+const BASE = process.env.REACT_APP_BASE;
 var styles = {
   header: {
     backgroundColor: header.color,

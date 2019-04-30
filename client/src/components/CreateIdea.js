@@ -10,7 +10,6 @@ import { categories } from "../data/categories.json";
 import { apiEndpoint } from "../utils";
 import IconUploader from "./icons/IconUploader";
 import { addIdea, updateIdea } from "../actions";
-import { BASE } from "../App";
 
 const styles = theme => ({
   container: {
@@ -68,13 +67,12 @@ class CreateIdea extends Component {
 
   handleUpdateState = fieldName => event => {
     if (this.state[fieldName] !== event.target.value) {
-      console.log("Setstate" + fieldName + event.target.value);
       this.setState({ [fieldName]: event.target.value });
     }
   };
 
   handleUpdateInspiredBy = () => sparkIDs => {
-    this.setState({ ["inspiredBy"]: sparkIDs });
+    this.setState({ inspiredBy: sparkIDs });
   };
 
   handleSelectCategory = fieldName => event => {
@@ -98,24 +96,23 @@ class CreateIdea extends Component {
     var method, uri, action;
     if (this.props.ideaId) {
       method = apiEndpoint.put;
-      uri = "/api/v2/ideas/" + this.props.ideaId;
+      uri = "/ideas/" + this.props.ideaId;
       action = updateIdea;
     } else {
       method = apiEndpoint.post;
-      uri = "/api/v2/ideas";
+      uri = "/ideas";
       action = addIdea;
     }
     method(uri, {
       ...this.state,
-      created: this.state.created ? this.state.created : Date.now(),
-      iconPath: this.state.icon.resourceName
+      created: this.state.created ? this.state.created : Date.now()
     })
       .then(response => {
         const { data } = response;
         const id = data._links.idea.href.split("/").pop();
         this.props.dispatch(action(id, data));
 
-        return navigate(BASE + "/ideas/" + id);
+        return navigate(process.env.REACT_APP_BASE + "/ideas/" + id);
       })
       .catch(error => {
         console.log(error);
@@ -125,7 +122,7 @@ class CreateIdea extends Component {
 
   handleImageUploadComplete = result => {
     this.setState({
-      icon: result
+      iconPath: result.resourceName
     });
   };
 

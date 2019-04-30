@@ -11,14 +11,11 @@ import {
   Idea
 } from "./components";
 import { backgroundColor } from "./constants/color";
-import { ServerResourceName } from "./constants";
-
-export const BASE = "/apps/orchard";
-
+console.log(process.env);
 class App extends Component {
   componentDidMount() {
     apiEndpoint
-      .get(ServerResourceName + "/api/v2/ideas")
+      .get("/ideas")
       .then(data => {
         console.log(data);
         this.props.dispatch(setIdeas(data.data._embedded.ideas));
@@ -30,7 +27,7 @@ class App extends Component {
     return (
       <div className="container-fluid" style={{ background: backgroundColor }}>
         <Header />
-        <Router basepath={BASE}>
+        <Router basepath={process.env.REACT_APP_BASE}>
           <Board path="/" />
           <CreateIdea path="/create-idea/:ideaId" />
           <CreateIdea path="/create-idea" />

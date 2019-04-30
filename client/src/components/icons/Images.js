@@ -1,6 +1,5 @@
 import React from "react";
 import { withStyles } from "@material-ui/core";
-import { ServerResourceName } from "../../constants";
 
 var styles = {
   iconPreview: {
@@ -22,7 +21,7 @@ class Images extends React.Component {
         <img
           style={{ maxWidth: 300 + "px" }}
           className="iconPreview"
-          src={ServerResourceName + image.resourceName}
+          src={process.env.REACT_APP_DOMAIN + image.resourceName}
           alt=""
         />
       </div>

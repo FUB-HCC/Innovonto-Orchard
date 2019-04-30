@@ -1,10 +1,11 @@
 import axios from "axios";
 
-const LOCAL_ENDPOINT = "http://localhost:8080/";
-const LIVE_ENDPOINT = "https://ideas-to-market.imp.fu-berlin.de/";
-
+const apiBase = process.env.REACT_APP_API;
 const apiEndpoint = axios.create({
-  baseURL: LOCAL_ENDPOINT
+  baseURL:
+    process.env.NODE_ENV === "production"
+      ? process.env.REACT_APP_LIVE_ENDPOINT + apiBase
+      : process.env.REACT_APP_LOCAL_ENDPOINT + apiBase
   /* other custom settings */
 });
 

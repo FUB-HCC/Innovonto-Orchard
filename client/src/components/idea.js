@@ -7,8 +7,7 @@ import { categories } from "../data/categories.json";
 import { Section, Li, EditButton } from "../styledComponents";
 import FormLabel from "@material-ui/core/FormLabel";
 import { edit } from "../icons";
-import { BASE } from "../App";
-
+const BASE = process.env.REACT_APP_BASE;
 const Idea = ({
   title,
   content,
@@ -39,7 +38,7 @@ const Idea = ({
         <img
           className={classes.image}
           height="120"
-          src={"http://localhost:8080" + iconPath}
+          src={process.env.REACT_APP_DOMAIN + iconPath}
           alt="iconPicure"
         />
       ) : null}
