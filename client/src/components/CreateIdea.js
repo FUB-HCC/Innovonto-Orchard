@@ -73,17 +73,8 @@ class CreateIdea extends Component {
     }
   };
 
-  handleUpdateInspiredBy = () => event => {
-    const fieldName = "inspiredBy";
-    const sparks = event.target.value;
-    var fieldValue = [];
-    if (sparks !== null) {
-      sparks.forEach(function(spark) {
-        fieldValue.push(spark["@id"]);
-      });
-    }
-    console.log(fieldValue);
-    this.setState({ [fieldName]: fieldValue });
+  handleUpdateInspiredBy = () => sparkIDs => {
+    this.setState({ ["inspiredBy"]: sparkIDs });
   };
 
   handleSelectCategory = fieldName => event => {
@@ -140,10 +131,6 @@ class CreateIdea extends Component {
 
   render() {
     const { classes } = this.props;
-    var idea = {};
-    if (this.props.ideaId) {
-      idea = this.props.ideas.find(i => i.id === this.props.ideaId);
-    }
     const {
       title,
       content,
@@ -151,7 +138,7 @@ class CreateIdea extends Component {
       ideaDetails,
       ideaProblem,
       iconPath
-    } = idea;
+    } = this.state;
     const { applicationAreas, ideaUsers } = this.state;
     return (
       <div className={classes.root}>

@@ -1,14 +1,16 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import TextField from "@material-ui/core/TextField";
-import { InspiredByList } from "./";
+import { TextField, FormLabel } from "@material-ui/core";
+import { InspiredByList, SparkInfo } from "./";
+import { Button } from "../styledComponents";
 
 class InspiredBy extends Component {
   constructor(props) {
     super(props);
     console.log(props);
     this.state = {
-      filteredSparks: [],
+      currentSpark: null,
+      value: "",
       savedSparks: props.inspiredBy
         ? props.inspiredBy.map(id =>
             props.sparks.find(s => s.id === id.split("/").pop())
@@ -17,53 +19,66 @@ class InspiredBy extends Component {
     };
   }
 
-  handleOnChange = event => {
-    const value = event.target.value.trim();
+  handleOnChange = ({ target: { value } }) => {
+    console.log(value);
     const { sparks } = this.props;
     const { savedSparks } = this.state;
-    var filteredSparks;
+    var currentSpark = null;
     if (value.length > 0) {
-      filteredSparks = sparks.filter(
-        s =>
-          value.split(" ").includes(s.title.split(" ")[1]) &&
-          !savedSparks.includes(s)
+      currentSpark = sparks.find(
+        s => value === s.title.split(" ")[1] && !savedSparks.includes(s)
       );
-      this.setState({ filteredSparks });
+      this.setState({ currentSpark, value });
     } else {
-      this.setState({ filteredSparks: [] });
+      this.setState({ currentSpark, value: "" });
     }
   };
 
   handleRemoveSpark = sparkId => {
-    var { filteredSparks, savedSparks } = this.state;
-    var index = filteredSparks.findIndex(s => s.id === sparkId);
-
-    if (index) filteredSparks.splice(index, 1);
+    var { savedSparks } = this.state;
     var index = savedSparks.findIndex(s => s.id === sparkId);
     if (index) savedSparks.splice(index, 1);
-    this.setState({ filteredSparks, savedSparks });
+    this.setState({ savedSparks });
+  };
+
+  handleAddSpark = () => {
+    const { inspiredBy } = this.props;
+    const { currentSpark } = this.state;
+    if (currentSpark) this.props.onSave([...inspiredBy, currentSpark["@id"]]);
+    this.setState(prevState => ({
+      currentSpark: undefined,
+      value: ""
+    }));
   };
 
   render() {
-    const { label, className, onSave, sparks } = this.props;
+    const { label, className, inspiredBy, sparks } = this.props;
+    const savedSparks = inspiredBy.map(id =>
+      sparks.find(s => s.id === id.split("/").pop())
+    );
     //TODO set state based on array given in "inspiredBy" props
 
-    const { filteredSparks, savedSparks } = this.state;
+    const { currentSpark, value } = this.state;
     return (
       <div>
-        <TextField
-          id="inspiredBy"
-          key={"inspiredBy"}
-          label={label}
-          className={className}
-          onChange={this.handleOnChange}
-          onBlur={() =>
-            onSave({ target: { value: [...filteredSparks, ...savedSparks] } })
-          }
-          fullWidth
-        />
+        <FormLabel>{label}</FormLabel>
+        <div>
+          <TextField
+            id="inspiredBy"
+            key={"inspiredBy"}
+            label={"Spark Number:"}
+            className={className}
+            value={value}
+            type="number"
+            onChange={this.handleOnChange}
+          />
+          <Button disabled={!currentSpark} onClick={this.handleAddSpark}>
+            Add
+          </Button>
+          <SparkInfo {...currentSpark} />
+        </div>
         <InspiredByList
-          sparks={[...filteredSparks, ...savedSparks]}
+          sparks={savedSparks}
           removeSpark={this.handleRemoveSpark}
         />
       </div>

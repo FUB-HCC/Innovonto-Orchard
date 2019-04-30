@@ -6,12 +6,7 @@ const InspiredByList = ({ sparks = [], ...props }) => {
   return (
     <div>
       {sparks.map(s => (
-        <SparkInfo
-          key={s.id}
-          {...s}
-          container={{ type: "CLUSTER" }}
-          {...props}
-        />
+        <SparkInfo key={s.id} {...s} {...props} />
       ))}
     </div>
   );
