@@ -7,26 +7,18 @@ import { Button } from "../styledComponents";
 class InspiredBy extends Component {
   constructor(props) {
     super(props);
-    console.log(props);
     this.state = {
-      currentSpark: null,
-      value: "",
-      savedSparks: props.inspiredBy
-        ? props.inspiredBy.map(id =>
-            props.sparks.find(s => s.id === id.split("/").pop())
-          )
-        : []
+      currentSpark: undefined,
+      value: ""
     };
   }
 
   handleOnChange = ({ target: { value } }) => {
-    console.log(value);
-    const { sparks } = this.props;
-    const { savedSparks } = this.state;
+    const { sparks, inspiredBy } = this.props;
     var currentSpark = null;
     if (value.length > 0) {
       currentSpark = sparks.find(
-        s => value === s.title.split(" ")[1] && !savedSparks.includes(s)
+        s => value === s.title.split(" ")[1] && !inspiredBy.includes(s["@id"])
       );
       this.setState({ currentSpark, value });
     } else {
@@ -35,16 +27,20 @@ class InspiredBy extends Component {
   };
 
   handleRemoveSpark = sparkId => {
-    var { savedSparks } = this.state;
-    var index = savedSparks.findIndex(s => s.id === sparkId);
-    if (index) savedSparks.splice(index, 1);
-    this.setState({ savedSparks });
+    var { inspiredBy } = this.props;
+    var index = inspiredBy.findIndex(i => i.split("/").pop() == sparkId);
+    if (index > -1) {
+      this.props.onSave([
+        ...inspiredBy.slice(0, index),
+        ...inspiredBy.slice(index + 1)
+      ]);
+    }
   };
 
   handleAddSpark = () => {
     const { inspiredBy } = this.props;
     const { currentSpark } = this.state;
-    if (currentSpark) this.props.onSave([...inspiredBy, currentSpark["@id"]]);
+    if (currentSpark) this.props.onSave([currentSpark["@id"], ...inspiredBy]);
     this.setState(prevState => ({
       currentSpark: undefined,
       value: ""
@@ -75,7 +71,7 @@ class InspiredBy extends Component {
           <Button disabled={!currentSpark} onClick={this.handleAddSpark}>
             Add
           </Button>
-          <SparkInfo {...currentSpark} />
+          {currentSpark ? <SparkInfo {...currentSpark} /> : null}
         </div>
         <InspiredByList
           sparks={savedSparks}

@@ -141,6 +141,7 @@ Spark = connect(
 )(Spark);
 
 export const SparkInfo = ({
+  id,
   title,
   labels,
   textnote,
@@ -151,7 +152,7 @@ export const SparkInfo = ({
     <div>
       <H6>
         {removeSpark ? (
-          <Button className="float-left" onClick={removeSpark}>
+          <Button className="float-left" onClick={() => removeSpark(id)}>
             X
           </Button>
         ) : null}
