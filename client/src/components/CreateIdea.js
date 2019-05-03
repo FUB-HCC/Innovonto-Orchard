@@ -55,6 +55,7 @@ class CreateIdea extends Component {
     if (this.props.ideaId) {
       const idea = this.props.ideas.find(i => i.id === this.props.ideaId);
       if (idea) this.setState(idea);
+      else navigate("../create-idea");
     }
   }
 

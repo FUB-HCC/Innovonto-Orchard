@@ -88,8 +88,12 @@ export default connect(
 )(InspiredBy);
 
 export const getSparks = state => {
-  const { boardSparks, clusters, stackSparks } = state.clustering.present;
+  var { boardSparks, clusters, stackSparks } = state.clustering.present;
   return {
-    sparks: [...boardSparks, ...stackSparks, ...clusters.flatMap(c => c.sparks)]
+    sparks: [
+      ...boardSparks,
+      ...stackSparks,
+      ...clusters.reduce((acc, c) => acc.concat(c.sparks), [])
+    ]
   };
 };

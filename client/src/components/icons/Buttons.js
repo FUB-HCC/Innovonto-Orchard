@@ -1,6 +1,5 @@
 import React from "react";
 import { Button } from "../../styledComponents";
-import { Input } from "@material-ui/core";
 
 export default props => (
   <div>

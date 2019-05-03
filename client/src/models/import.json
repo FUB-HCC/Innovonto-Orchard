@@ -1,0 +1,29 @@
+{
+  "title": "Import schema",
+  "description": "How a import File has to look like",
+  "type": "object",
+  "properties": {
+    "@graph": {
+      "type": "array",
+      "itmems": {
+        "title": "Spark",
+        "description": "A Spark is the therme for idea",
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "content": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "required": ["content"]
+      }
+    }
+  },
+  "required": ["@graph"]
+}

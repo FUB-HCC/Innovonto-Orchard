@@ -160,7 +160,7 @@ export const SparkInfo = ({
         {labels && labels.length ? <LabelIcon /> : null}
         {textnote ? <TextnoteIcon /> : null}
       </H6>
-      <div>{content}</div>
+      <div id={"content" + id}>{content}</div>
     </div>
   );
 };

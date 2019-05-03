@@ -3,13 +3,7 @@ import { connect } from "react-redux";
 import { Router } from "@reach/router";
 import { apiEndpoint } from "./utils";
 import { setIdeas } from "./actions";
-import {
-  Board,
-  Header,
-  CreateIdea,
-  ViewCreatedIdeas,
-  Idea
-} from "./components";
+import { Board, Header, CreateIdea, ViewCreatedIdeas } from "./components";
 import { backgroundColor } from "./constants/color";
 console.log(process.env);
 class App extends Component {
@@ -33,7 +27,7 @@ class App extends Component {
           <CreateIdea path="/create-idea" />
           <ViewCreatedIdeas path="/ideas/:ideaId" />
           <ViewCreatedIdeas path="/ideas" />
-          <Idea path="/idea/:id" />
+          {/*<Idea path="/idea/:id" />*/}
         </Router>
       </div>
     );

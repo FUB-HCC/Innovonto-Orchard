@@ -4,22 +4,13 @@ import { connect } from "react-redux";
 import { Button, H6 } from "../styledComponents";
 import { Idea } from "./";
 import { exportIdeasAsJsonLd } from "../utils/exportIdeas";
+import { navigate } from "@reach/router";
 
 var styles = {
   root: {
     maxWidth: 700,
     margin: "auto"
   },
-  time: {
-    float: "right",
-    marginLeft: 5
-  },
-  image: {
-    float: "left",
-    marginRight: 10
-  },
-  content: {},
-  idea: {},
   exportButton: {
     textAlign: "center"
   }
@@ -29,7 +20,9 @@ class ViewCreatedIdeas extends Component {
   componentDidMount() {
     const { ideaId } = this.props;
     if (ideaId) {
-      document.getElementById(ideaId).scrollIntoView();
+      const ideaElem = document.getElementById(ideaId);
+      if (ideaElem) ideaElem.scrollIntoView();
+      else navigate("../ideas");
     }
   }
 
@@ -42,7 +35,6 @@ class ViewCreatedIdeas extends Component {
           viewFull={ideaId === idea.id}
           id={idea.id}
           key={idea.id}
-          classes={classes}
           {...idea}
         />
       ));

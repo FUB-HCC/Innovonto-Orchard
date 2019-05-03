@@ -7,7 +7,19 @@ import { categories } from "../data/categories.json";
 import { Section, Li, EditButton } from "../styledComponents";
 import FormLabel from "@material-ui/core/FormLabel";
 import { edit } from "../icons";
+import { withStyles } from "@material-ui/core/styles";
 const BASE = process.env.REACT_APP_BASE;
+
+const styles = {
+  time: {
+    float: "right",
+    marginLeft: 5
+  },
+  image: {
+    float: "left",
+    marginRight: 10
+  }
+};
 const Idea = ({
   title,
   content,
@@ -90,4 +102,4 @@ FullContent = connect(
   null
 )(FullContent);
 
-export default Idea;
+export default withStyles(styles)(Idea);

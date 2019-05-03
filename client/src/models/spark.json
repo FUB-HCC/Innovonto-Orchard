@@ -1,0 +1,20 @@
+{
+  "title": "Spark",
+  "description": "A Spark is the therme for idea",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string"
+    },
+    "content": {
+      "type": "string"
+    },
+    "id": {
+      "type": "uuid"
+    },
+    "position": {
+      "type": "object"
+    }
+  },
+  "required": ["content", "id"]
+}
