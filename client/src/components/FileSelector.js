@@ -2,8 +2,15 @@ import React from "react";
 import { loadSparks } from "../actions";
 import { connect } from "react-redux";
 import { Button } from "../styledComponents";
+import Ajv from "ajv";
+import importSchema from "../models/import.json";
+var ajv = new Ajv();
 
 const parseSparksFrom = doc => {
+  if (!ajv.validate(importSchema, doc)) {
+    console.log(ajv.errors);
+    return null;
+  }
   return doc["@graph"].map((spark, i) => {
     return {
       content: spark.content,
@@ -19,17 +26,18 @@ const parseSparksFrom = doc => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  loadSparks: (...props) => dispatch(loadSparks(...props))
+  dispatchLoadSparks: (...props) => dispatch(loadSparks(...props))
 });
 
 class FileSelector extends React.Component {
   parseSparksFromFileInput = e => {
     const content = e.target.result;
     const sparks = parseSparksFrom(JSON.parse(content));
-    console.log(sparks);
 
-    this.props.dispatch(loadSparks(sparks));
-    console.log("Done loading sparks.");
+    if (sparks) {
+      this.props.dispatchLoadSparks(sparks);
+      console.log("Done loading sparks.");
+    }
   };
 
   handleImport = event => {
@@ -57,4 +65,7 @@ class FileSelector extends React.Component {
   }
 }
 
-export default connect(mapDispatchToProps)(FileSelector);
+export default connect(
+  null,
+  mapDispatchToProps
+)(FileSelector);
