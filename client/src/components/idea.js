@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { InspiredByList } from "./";
+import { InspiredByList, DeleteIdea } from "./";
 import { getSparks } from "./InspiredBy";
 import { Link } from "@reach/router";
 import { categories } from "../data/categories.json";
@@ -37,11 +37,14 @@ const Idea = ({
         <Section>{title}</Section>
       </Link>
       {viewFull ? (
-        <Link to={BASE + "/create-idea/" + id}>
-          <EditButton>
-            <img alt="edit" height="10" src={edit} />
-          </EditButton>
-        </Link>
+        <div>
+          <Link to={BASE + "/create-idea/" + id}>
+            <EditButton>
+              <img alt="edit" height="10" src={edit} />
+            </EditButton>
+          </Link>
+          <DeleteIdea id={id} />
+        </div>
       ) : null}
       <time className={classes.time}>
         <small>{date.toDateString()}</small>

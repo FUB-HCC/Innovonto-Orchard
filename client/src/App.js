@@ -2,21 +2,17 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Router } from "@reach/router";
 import { apiEndpoint } from "./utils";
-import { setIdeas } from "./actions";
+import { setContestIDs } from "./actions";
 import { Board, Header, CreateIdea, ViewCreatedIdeas } from "./components";
 import { backgroundColor } from "./constants/color";
 console.log(process.env);
 class App extends Component {
   componentDidMount() {
-    apiEndpoint
-      .get("/ideas")
-      .then(data => {
-        console.log(data);
-        this.props.dispatch(setIdeas(data.data._embedded.ideas));
-      })
-      .catch(error => console.log(error));
+    apiEndpoint.get("/ideaContests/").then(res => {
+      console.log(res);
+      this.props.dispatch(setContestIDs(res.data));
+    });
   }
-
   render() {
     return (
       <div className="container-fluid" style={{ background: backgroundColor }}>

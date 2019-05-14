@@ -15,8 +15,10 @@ import Idea from "./idea";
 import InspiredBy from "./InspiredBy";
 import FileSelector from "./FileSelector";
 import InspiredByList from "./InspiredByList";
+import DeleteIdea from "./DeleteIdea";
 
 export {
+  DeleteIdea,
   InspiredByList,
   InspiredBy,
   Spark,

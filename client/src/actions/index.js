@@ -53,6 +53,7 @@ const updateSpark = (id, container, updateObj) => ({
 });
 
 export * from "./ideaActions";
+export * from "./contestAction";
 export {
   moveSpark,
   moveCluster,

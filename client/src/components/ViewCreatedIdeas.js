@@ -5,6 +5,8 @@ import { Button, H6 } from "../styledComponents";
 import { Idea } from "./";
 import { exportIdeasAsJsonLd } from "../utils/exportIdeas";
 import { navigate } from "@reach/router";
+import { apiEndpoint } from "../utils";
+import { setIdeas } from "../actions";
 
 var styles = {
   root: {
@@ -20,9 +22,25 @@ class ViewCreatedIdeas extends Component {
   componentDidMount() {
     const { ideaId } = this.props;
     if (ideaId) {
+      this.updateIdeas();
       const ideaElem = document.getElementById(ideaId);
       if (ideaElem) ideaElem.scrollIntoView();
       else navigate("../ideas");
+    }
+  }
+  updateIdeas = () => {
+    apiEndpoint
+      .get("/ideas")
+      .then(data => {
+        console.log(data);
+        this.props.dispatch(setIdeas(data.data._embedded.ideas));
+      })
+      .catch(error => console.log(error));
+  };
+
+  componentWillReceiveProps({ ideaId }) {
+    if (ideaId !== this.props.ideaId) {
+      this.updateIdeas();
     }
   }
 

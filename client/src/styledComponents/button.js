@@ -3,7 +3,7 @@ import { jsx } from "@emotion/core";
 import styled from "@emotion/styled";
 import { withStyles } from "@material-ui/core/styles";
 import MUIButton from "@material-ui/core/Button";
-import { button, sparkColor, clusterColor } from "../constants/color";
+import { button, sparkColor, clusterColor, lightRed } from "../constants/color";
 
 const styles = theme => ({
   button: {
@@ -21,17 +21,17 @@ let Button = ({ classes, children, ...props }) => {
 };
 Button = withStyles(styles)(Button);
 
-const editStyle = {
+const editStyle = (type = "edit") => ({
   padding: "5px 5px",
   borderRadius: 5,
   color: button.text,
   "&:hover": {
-    backgroundColor: sparkColor
+    backgroundColor: type === "edit" ? sparkColor : lightRed
   },
   cursor: "pointer"
-};
-const EditButton = ({ children, ...props }) => (
-  <span css={editStyle} {...props}>
+});
+const EditButton = ({ children, type, ...props }) => (
+  <span css={editStyle(type)} {...props}>
     {children}
   </span>
 );
