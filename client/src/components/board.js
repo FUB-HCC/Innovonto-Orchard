@@ -9,7 +9,7 @@ import {
   ActiveSpark,
   UndoRedo
 } from "./";
-import { moveSpark, moveCluster } from "../actions";
+import { moveSpark, moveCluster, loadSparks } from "../actions";
 import { boardColor } from "./../constants/color";
 import { sparkSize } from "../constants/index.json";
 
@@ -27,12 +27,13 @@ var styles = {
   }
 };
 const mapStateToProps = state => ({
-  ...state.clustering.present,
+  ...state.contest.currentContest.clustering.present,
   activeSpark: state.activeSpark
 });
 const mapDispatchToProps = dispatch => ({
   moveSpark: (...props) => dispatch(moveSpark(...props)),
-  moveCluster: (...props) => dispatch(moveCluster(...props))
+  moveCluster: (...props) => dispatch(moveCluster(...props)),
+  loadSparks: (...props) => dispatch(loadSparks(...props))
 });
 
 class Board extends Component {

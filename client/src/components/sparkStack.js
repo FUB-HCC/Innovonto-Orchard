@@ -5,7 +5,7 @@ import { turnOverStack, turnBackStack } from "../actions";
 import { H6, Box, EditButton, Number } from "../styledComponents";
 
 const SparkStack = ({ stackSparks = [], type, dispatch }) => {
-  const DisplaySparks = renderSparks(stackSparks, { type });
+  const DisplaySparks = renderSparks(stackSparks.slice(0, 50), { type });
   return (
     <div>
       <H6 bold={true}>

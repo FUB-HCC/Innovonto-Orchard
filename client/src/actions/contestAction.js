@@ -1,11 +1,11 @@
-const setContestIDs = contests => ({
-  type: "SET_CONTEST_IDS",
+const setContests = contests => ({
+  type: "SET_CONTESTS",
   contests
 });
 
-const setCurrentContest = id => ({
+const setCurrentContest = currentContest => ({
   type: "SET_CURRENT_CONTEST",
-  id
+  currentContest
 });
 
-export { setContestIDs, setCurrentContest };
+export { setContests, setCurrentContest };

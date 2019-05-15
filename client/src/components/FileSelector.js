@@ -6,7 +6,7 @@ import Ajv from "ajv";
 import importSchema from "../models/import.json";
 var ajv = new Ajv();
 
-const parseSparksFrom = doc => {
+export const parseSparksFrom = doc => {
   if (!ajv.validate(importSchema, doc)) {
     console.log(ajv.errors);
     return null;

@@ -6,10 +6,11 @@ const initialState = {
   stackSparks: [],
   boardSparks: [],
   clusters: [],
-  nextIndex: 0
+  nextIndex: 0,
+  sparksLoaded: false
 };
 
-export default (state = { ...initialState }, action) => {
+export default (state = initialState, action) => {
   const { type } = action;
   var spark, newState, clusters, stackSparks, c;
   switch (type) {
@@ -28,14 +29,11 @@ export default (state = { ...initialState }, action) => {
     case "LOAD_SPARKS":
       const { sparks } = action;
       //TODO merge the sparks (this doesn't work right now
-      stackSparks = [
-        ...state.stackSparks,
-        ...sparks.filter(({ id }) => state.stackSparks.every(s => s.id === id))
-      ];
       return {
         ...state,
-        stackSparks: stackSparks,
-        nextIndex: sparks.length + state.nextIndex
+        stackSparks: sparks,
+        nextIndex: sparks.length + state.nextIndex,
+        sparksLoaded: true
       };
     case "MOVE_CLUSTER":
       const { id: c_id, position: p } = action;

@@ -8,7 +8,7 @@ import { Button, H6, H2 } from "../styledComponents";
 import { Link } from "@reach/router";
 import { downloadState } from "../utils";
 import { resetState } from "../actions";
-import FileSelector from "./FileSelector";
+import { ContestSelector } from "./";
 
 const BASE = process.env.REACT_APP_BASE;
 var styles = {
@@ -29,14 +29,13 @@ var styles = {
 const Header = ({ resetState, ...props }) => (
   <div className="row header" style={styles.header}>
     <div className="col-auto" style={styles.h}>
+      <ContestSelector />
       <Button onClick={() => downloadState(props)}>
         {"Download"} <img alt="download" height={20} src={download} />
       </Button>
       <Button onClick={resetState}>
         {"Reset"} <img alt="reset" height={20} src={reset} />
       </Button>
-
-      <FileSelector />
     </div>
     <div className="col" style={styles.h}>
       <Link to={BASE}>
@@ -56,7 +55,7 @@ const Header = ({ resetState, ...props }) => (
 );
 
 const mapStateToProps = state => ({
-  ...state.clustering.present,
+  ...state.contest.currentContest.clustering.present,
   activeSpark: state.activeSpark
 });
 

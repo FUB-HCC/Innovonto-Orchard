@@ -2,17 +2,46 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Router } from "@reach/router";
 import { apiEndpoint } from "./utils";
-import { setContestIDs } from "./actions";
-import { Board, Header, CreateIdea, ViewCreatedIdeas } from "./components";
+import { setContests, loadSparks } from "./actions";
+import {
+  Board,
+  Header,
+  CreateIdea,
+  ViewCreatedIdeas,
+  parseSparksFrom
+} from "./components";
 import { backgroundColor } from "./constants/color";
 console.log(process.env);
 class App extends Component {
   componentDidMount() {
     apiEndpoint.get("/ideaContests/").then(res => {
       console.log(res);
-      this.props.dispatch(setContestIDs(res.data));
+      this.props.dispatch(setContests(res.data));
+      this.handleLoadSparks();
     });
   }
+  componentDidUpdate(prevProps) {
+    if (
+      this.props.currentContestID !== prevProps.currentContestID ||
+      !this.props.sparksLoaded
+    ) {
+      console.log("prps", prevProps);
+      this.handleLoadSparks();
+    }
+  }
+
+  handleLoadSparks = () => {
+    if (!this.props.sparksLoaded && this.props.currentContestID) {
+      apiEndpoint
+        .get("/ideaContests/" + this.props.currentContestID + "/sparks/")
+        .then((res, err) => {
+          if (err) {
+            return console.log(err);
+          }
+          this.props.dispatch(loadSparks(parseSparksFrom(res.data)));
+        });
+    }
+  };
   render() {
     return (
       <div className="container-fluid" style={{ background: backgroundColor }}>
@@ -30,4 +59,7 @@ class App extends Component {
   }
 }
 
-export default connect()(App);
+export default connect(state => ({
+  sparksLoaded: state.contest.currentContest.clustering.present.sparksLoaded,
+  currentContestID: state.contest.currentContest.id
+}))(App);

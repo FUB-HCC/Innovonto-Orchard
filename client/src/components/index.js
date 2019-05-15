@@ -13,11 +13,13 @@ import CreateIdea from "./CreateIdea";
 import ViewCreatedIdeas from "./ViewCreatedIdeas";
 import Idea from "./idea";
 import InspiredBy from "./InspiredBy";
-import FileSelector from "./FileSelector";
+import FileSelector, { parseSparksFrom } from "./FileSelector";
 import InspiredByList from "./InspiredByList";
 import DeleteIdea from "./DeleteIdea";
+import ContestSelector from "./ContestSelector";
 
 export {
+  ContestSelector,
   DeleteIdea,
   InspiredByList,
   InspiredBy,
@@ -39,5 +41,6 @@ export {
   CreateIdea,
   ViewCreatedIdeas,
   Idea,
-  FileSelector
+  FileSelector,
+  parseSparksFrom
 };

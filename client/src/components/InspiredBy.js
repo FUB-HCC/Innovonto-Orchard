@@ -88,7 +88,11 @@ export default connect(
 )(InspiredBy);
 
 export const getSparks = state => {
-  var { boardSparks, clusters, stackSparks } = state.clustering.present;
+  var {
+    boardSparks,
+    clusters,
+    stackSparks
+  } = state.contest.currentContest.clustering.present;
   return {
     sparks: [
       ...boardSparks,

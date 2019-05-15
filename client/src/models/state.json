@@ -3,25 +3,41 @@
   "description": "describes properties required for the state of the redux store",
   "type": "object",
   "properties": {
-    "clustering": {
-      "title": "clustering",
+    "contest": {
+      "title": "contest",
       "type": "object",
-      "description": "the state of the board",
+      "required": ["contests", "currentContest"],
       "properties": {
-        "present": {
+        "contests": {
+          "type": "array"
+        },
+        "currentContest": {
           "type": "object",
-          "description": "the present state of the board"
-        },
-        "past": {
-          "type": "array",
-          "description": "the past state of the board"
-        },
-        "future": {
-          "type": "array",
-          "description": "the future state of the board"
+          "properties": {
+            "clustering": {
+              "title": "clustering",
+              "type": "object",
+              "description": "the state of the board",
+              "properties": {
+                "present": {
+                  "type": "object",
+                  "description": "the present state of the board"
+                },
+                "past": {
+                  "type": "array",
+                  "description": "the past state of the board"
+                },
+                "future": {
+                  "type": "array",
+                  "description": "the future state of the board"
+                }
+              }
+            }
+          }
         }
       }
     },
+
     "activeSpark": {
       "type": ["object", "null"],
       "description": "the active Spark the User focued on"
@@ -31,5 +47,5 @@
       "description": "password of account"
     }
   },
-  "required": ["clustering", "ideas"]
+  "required": ["contest", "ideas"]
 }
