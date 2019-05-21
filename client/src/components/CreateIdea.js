@@ -48,7 +48,7 @@ const initState = {
 class CreateIdea extends Component {
   constructor(props) {
     super(props);
-    this.state = initState;
+    this.state = { ...initState, ideaContest: props.ideaContestId };
   }
 
   componentDidMount() {
@@ -94,10 +94,11 @@ class CreateIdea extends Component {
   };
   handleFormSubmit = event => {
     event.preventDefault();
+    const { ideaId } = this.props;
     var method, uri, action;
-    if (this.props.ideaId) {
+    if (ideaId) {
       method = apiEndpoint.put;
-      uri = "/ideas/" + this.props.ideaId;
+      uri = "/ideas/" + ideaId;
       action = updateIdea;
     } else {
       method = apiEndpoint.post;
@@ -110,6 +111,7 @@ class CreateIdea extends Component {
     })
       .then(response => {
         const { data } = response;
+        console.log(data);
         const id = data._links.idea.href.split("/").pop();
         this.props.dispatch(action(id, data));
 
@@ -230,7 +232,10 @@ class CreateIdea extends Component {
 
 export default withStyles(styles)(
   connect(
-    state => ({ ideas: state.ideas }),
+    state => ({
+      ideas: state.ideas,
+      ideaContestId: state.contest.currentContest.id
+    }),
     null
   )(CreateIdea)
 );

@@ -49,5 +49,4 @@ public class IdeaContestController {
         return ideaRepository.findAllByIdeaContest(ideaContestId.toString());
     }
 
-
 }

@@ -30,10 +30,10 @@ class ViewCreatedIdeas extends Component {
   }
   updateIdeas = () => {
     apiEndpoint
-      .get("/ideas")
+      .get("/ideaContests/" + this.props.ideaContestId + "/ideas")
       .then(data => {
         console.log(data);
-        this.props.dispatch(setIdeas(data.data._embedded.ideas));
+        this.props.dispatch(setIdeas(data.data));
       })
       .catch(error => console.log(error));
   };
@@ -71,7 +71,10 @@ class ViewCreatedIdeas extends Component {
 
 export default withStyles(styles)(
   connect(
-    state => ({ ideas: state.ideas }),
+    state => ({
+      ideas: state.ideas,
+      ideaContestId: state.contest.currentContest.id
+    }),
     null
   )(ViewCreatedIdeas)
 );
