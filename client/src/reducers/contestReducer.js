@@ -19,7 +19,11 @@ export default (contest = { contests: [], currentContest: {} }, action) => {
             ...contest.contests.slice(0, index),
             {
               ...contest.contests[index],
-              clustering: contest.currentContest.clustering
+              clustering: {
+                ...contest.currentContest.clustering,
+                future: [],
+                past: []
+              }
             },
             ...contest.contests.slice(index + 1)
           ];
