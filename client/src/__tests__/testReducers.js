@@ -13,10 +13,10 @@ const typeCluster = id => {
 it("add sparks to stackSparks", () => {
   expect(
     clusteringReducer(
-      { stackSparks: [1, 2, 3], nextIndex: 3 },
-      loadSparks([5, 6])
+      { stackSparks: [], nextIndex: 0, sparksLoaded: true },
+      loadSparks([1, 2, 3, 5, 6])
     )
-  ).toEqual({ stackSparks: [1, 2, 3, 5, 6], nextIndex: 5 });
+  ).toEqual({ stackSparks: [1, 2, 3, 5, 6], nextIndex: 5, sparksLoaded: true });
 });
 
 it("move spark on board", () => {
@@ -50,14 +50,14 @@ it("move Spark from Cluster1 to Cluster2", () => {
   let p1 = { left: 2, top: 1 };
   let p2 = { left: 1, top: 2 };
   let c1 = new Cluster(p1, sparks.slice(0, 5), 1, "eins");
-  let c2 = new Cluster(p2, sparks.slice(5), 2, "eins");
+  let c2 = new Cluster(p2, sparks.slice(5), 2, "zwei");
   let stateBefor = {
     clusters: [c1, c2]
   };
   let stateAfter = {
     clusters: [
       { ...c1, sparks: c1.sparks.slice(0, 4) },
-      { ...c2, sparks: [...c2.sparks, { ...c1.sparks[4], position: p2 }] }
+      { ...c2, sparks: [{ ...c1.sparks[4], position: p2 }, ...c2.sparks] }
     ]
   };
   expect(
