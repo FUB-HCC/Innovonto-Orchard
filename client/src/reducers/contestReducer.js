@@ -11,9 +11,7 @@ export default (contest = { contests: [], currentContest: {} }, action) => {
       return { ...contest, contests: [...contest.contests, ...newContests] };
     case "SET_CURRENT_CONTEST":
       if (contest.currentContest.id) {
-        var index = contest.contests.findIndex(
-          c => c.id === contest.currentContest.id
-        );
+        var index = contest.contests.findIndex(c => c.id === currentContest.id);
         if (index >= 0)
           contests = [
             ...contest.contests.slice(0, index),

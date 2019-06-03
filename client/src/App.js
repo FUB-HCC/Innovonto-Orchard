@@ -11,11 +11,9 @@ import {
   parseSparksFrom
 } from "./components";
 import { backgroundColor } from "./constants/color";
-console.log(process.env);
 class App extends Component {
   componentDidMount() {
     apiEndpoint.get("/ideaContests/").then(res => {
-      console.log(res);
       this.props.dispatch(setContests(res.data));
       this.handleLoadSparks();
     });
@@ -25,7 +23,6 @@ class App extends Component {
       this.props.currentContestID !== prevProps.currentContestID ||
       !this.props.sparksLoaded
     ) {
-      console.log("prps", prevProps);
       this.handleLoadSparks();
     }
   }
