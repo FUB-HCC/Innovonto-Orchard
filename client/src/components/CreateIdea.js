@@ -9,7 +9,6 @@ import { InspiredBy } from "./";
 import { categories } from "../data/categories.json";
 import { apiEndpoint } from "../utils";
 import IconUploader from "./icons/IconUploader";
-import { addIdea, updateIdea } from "../actions";
 
 const styles = theme => ({
   container: {
@@ -99,11 +98,9 @@ class CreateIdea extends Component {
     if (ideaId) {
       method = apiEndpoint.put;
       uri = "/ideas/" + ideaId;
-      action = updateIdea;
     } else {
       method = apiEndpoint.post;
       uri = "/ideas";
-      action = addIdea;
     }
     method(uri, {
       ...this.state,
@@ -113,7 +110,6 @@ class CreateIdea extends Component {
         const { data } = response;
         console.log(data);
         const id = data._links.idea.href.split("/").pop();
-        this.props.dispatch(action(id, data));
 
         return navigate(process.env.REACT_APP_BASE + "/ideas/" + id);
       })
