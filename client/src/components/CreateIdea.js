@@ -194,7 +194,6 @@ class CreateIdea extends Component {
             multiline
             rowsMax="10"
             rows="4"
-            required
           />
           <TextField
             id="ideaProblem"
@@ -207,7 +206,6 @@ class CreateIdea extends Component {
             multiline
             rowsMax="10"
             rows="4"
-            required
           />
           <SectionControl
             label={categories.applicationAreas.label}
