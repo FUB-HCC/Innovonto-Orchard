@@ -8,7 +8,14 @@ export default (contest = { contests: [], currentContest: {} }, action) => {
       var newContests = contests.filter(con =>
         contest.contests.every(c => c.id !== con.id)
       );
-      return { ...contest, contests: [...contest.contests, ...newContests] };
+      newContests = [...contest.contests, ...newContests];
+      if (!contest.currentContest.id && newContests.length > 0) {
+        contest.currentContest = {
+          ...newContests[0],
+          clustering: undoableReducer(undefined, action)
+        };
+      }
+      return { ...contest, contests: newContests };
     case "SET_CURRENT_CONTEST":
       if (contest.currentContest.id) {
         var index = contest.contests.findIndex(c => c.id === currentContest.id);

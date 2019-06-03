@@ -21,8 +21,8 @@ var styles = {
 class ViewCreatedIdeas extends Component {
   componentDidMount() {
     const { ideaId } = this.props;
+    this.updateIdeas();
     if (ideaId) {
-      this.updateIdeas();
       const ideaElem = document.getElementById(ideaId);
       if (ideaElem) ideaElem.scrollIntoView();
       else navigate("../ideas");
