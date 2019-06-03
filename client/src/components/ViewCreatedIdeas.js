@@ -20,8 +20,8 @@ var styles = {
 
 class ViewCreatedIdeas extends Component {
   componentDidMount() {
-    const { ideaId } = this.props;
-    this.updateIdeas();
+    const { ideaId, ideaContestId } = this.props;
+    if (ideaContestId) this.updateIdeas();
     if (ideaId) {
       const ideaElem = document.getElementById(ideaId);
       if (ideaElem) ideaElem.scrollIntoView();
@@ -33,7 +33,7 @@ class ViewCreatedIdeas extends Component {
       .get("/ideaContests/" + this.props.ideaContestId + "/ideas")
       .then(data => {
         console.log(data);
-        this.props.dispatch(setIdeas(data.data));
+        if (data._embedded) this.props.dispatch(setIdeas(data._embedded.ideas));
       })
       .catch(error => console.log(error));
   };
