@@ -32,8 +32,9 @@ class ViewCreatedIdeas extends Component {
     apiEndpoint
       .get("/ideaContests/" + this.props.ideaContestId + "/ideas")
       .then(data => {
-        console.log(data);
-        if (data._embedded) this.props.dispatch(setIdeas(data._embedded.ideas));
+        if (data.data._embedded)
+          this.props.dispatch(setIdeas(data.data._embedded.ideas));
+        else this.props.dispatch(setIdeas([]));
       })
       .catch(error => console.log(error));
   };
