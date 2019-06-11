@@ -45,19 +45,19 @@
 idea:
 
 ```
-title: "title",
+id: uuid,
+title: string,
+content: string,
+created: UTC-time,
+creator: User,
+currentVersion: boolean,
+iconPath: string,
 applicationAreas: Array [],
-content: "content",
-created: "2019-06-03T13:17:33.818+0000",
-creator: "unknown",
-currentVersion: true,
-iconPath: "/path",
-id: "9e93b998-5bec-4c87-a707-9a8b1cb0fcdd",
-ideaContest: "7bcbec93-5bf5-49e3-b7b3-31caa23003f6",
-ideaDetails: "idea Details",
-ideaProblem: "idea Problem",
+ideaContest: uuid,
+ideaDetails: string,
+ideaProblem: string,
 ideaUsers: Array [],
-ideaUsersOther: "",
+ideaUsersOther: string,
 inspiredBy: Array [],
-status: "icv-needed"
+status: string
 ```
