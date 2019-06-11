@@ -42,7 +42,9 @@
 
 ![Diagram](/client/public/ActivityDiagramClustering.png)
 
-idea: ```
+idea:
+
+```
 title: "title",
 applicationAreas: Array [],
 content: "content",
@@ -58,7 +60,4 @@ ideaUsers: Array [],
 ideaUsersOther: "",
 inspiredBy: Array [],
 status: "icv-needed"
-
-```
-
 ```
