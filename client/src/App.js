@@ -35,6 +35,7 @@ class App extends Component {
           if (err) {
             return console.log(err);
           }
+
           this.props.dispatch(loadSparks(parseSparksFrom(res.data)));
         });
     }

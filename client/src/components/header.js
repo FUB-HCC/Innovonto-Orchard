@@ -38,15 +38,15 @@ const Header = ({ resetState, ...props }) => (
       </Button>
     </div>
     <div className="col" style={styles.h}>
-      <Link to={BASE}>
+      <Link to={BASE + "/"}>
         <H2>{App_Name}</H2>
       </Link>
     </div>
     <div className="col-auto" style={styles.h}>
-      <Link to={BASE + "/ideas"}>
+      <Link to={BASE + "/ideas/"}>
         <H6>{"Ideas"}</H6>
       </Link>
-      <Link to={BASE + "/create-idea"}>
+      <Link to={BASE + "/create-idea/"}>
         <H6>{"Create Idea"}</H6>
       </Link>
       <img alt="logo" height="80" src={logoI2M} />
