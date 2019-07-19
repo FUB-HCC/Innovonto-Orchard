@@ -28,6 +28,7 @@ export default (state = initialState, action) => {
       return newState;
     case "LOAD_SPARKS":
       const { sparks } = action;
+
       //TODO merge the sparks (this doesn't work right now
       return {
         ...state,
