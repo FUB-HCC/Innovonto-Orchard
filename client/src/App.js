@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import { Router } from "@reach/router";
 import { apiEndpoint } from "./utils";
 import { setContests, loadSparks } from "./actions";
-import { validateSparks } from "./middleware";
 import {
   Board,
   Header,
@@ -36,9 +35,7 @@ class App extends Component {
           if (err) {
             return console.log(err);
           }
-          this.props.dispatch(
-            loadSparks(parseSparksFrom(validateSparks(res.data)))
-          );
+          this.props.dispatch(loadSparks(parseSparksFrom(res.data)));
         });
     }
   };
