@@ -20,7 +20,10 @@ export const parseSparksFrom = doc => {
         .filter(v => v !== "")
         .pop(),
       title: `Spark ${i}`,
-      position: { left: 0, top: 0 }
+      position: { left: 0, top: 0 },
+      concepts: Array.isArray(spark.hasAnnotation)
+        ? spark.hasAnnotation.map(c => ({ text: c.text, id: c["@id"] }))
+        : []
     };
   });
 };

@@ -2,9 +2,10 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { setActiveSpark } from "../actions";
 import Draggable from "./draggable";
-import { sparkColor } from "../constants/color";
+import { sparkColor, borderColor } from "../constants/color";
 import { sparkSize } from "./../constants/index.json";
 import { H6, LabelIcon, TextnoteIcon, Button } from "../styledComponents";
+import primary from "@material-ui/core/colors/amber";
 
 export const renderSparks = (sparks, container, dropZone) => {
   if (!sparks) return null;
@@ -22,18 +23,16 @@ export const renderSparks = (sparks, container, dropZone) => {
 };
 
 function ellipsizeTextBox(id) {
-  var textHeight = 0;
   var el = document.getElementById(id);
-  if (!el) return { textHeight: undefined, text: undefined };
+  if (!el) return undefined;
   var text = el.innerHTML;
   var wordArray = el.innerHTML.split(" ");
-  textHeight = el.scrollHeight;
   while (el.scrollHeight > el.offsetHeight) {
     wordArray.pop();
     text = wordArray.join(" ") + "...";
     el.innerHTML = text;
   }
-  return { textHeight, text };
+  return text;
 }
 
 var styles = {
@@ -55,6 +54,10 @@ var styles = {
     padding: "0px 5px",
     fontSize: sparkSize.fontSize,
     maxHeight: sparkSize.contentHeight
+  },
+  hl: {
+    backgroundColor: borderColor,
+    padding: 0
   }
 };
 
@@ -62,18 +65,14 @@ class Spark extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      textHeight: styles.content.maxHeight,
-      displayFull: false
+      ellipText: undefined
     };
     this.sparkRef = React.createRef();
   }
 
   componentDidMount() {
-    const { textHeight, text } = ellipsizeTextBox(
-      "content" + this.props.data.id
-    );
+    const text = ellipsizeTextBox("content" + this.props.data.id);
     this.setState({
-      textHeight: textHeight,
       ellipText: text
     });
   }
@@ -88,7 +87,16 @@ class Spark extends Component {
 
   render() {
     const {
-      data: { position, id, content, labels, textnote, title },
+      data: {
+        position,
+        id,
+        content,
+        labels,
+        textnote,
+        title,
+        concepts,
+        similarities
+      },
       container,
       dropZone,
       activeSpark
@@ -103,7 +111,6 @@ class Spark extends Component {
     }
 
     var text = ellipText ? ellipText : content;
-    var styleTextBox = styles.content;
     return (
       <Draggable
         id={id}
@@ -119,9 +126,11 @@ class Spark extends Component {
             {labels && labels.length ? <LabelIcon /> : null}
             {textnote ? <TextnoteIcon /> : null}
           </H6>
-          <div id={"content" + id} style={styleTextBox}>
-            {text}
-          </div>
+          <p id={"content" + id} style={styles.content}>
+            {(activeSpark === id || similarities) && ellipText
+              ? highlighted(concepts, text, similarities)
+              : text}
+          </p>
         </div>
       </Draggable>
     );
@@ -165,3 +174,38 @@ export const SparkInfo = ({
   );
 };
 export default Spark;
+
+export const highlighted = (
+  concepts,
+  content,
+  similarities = [],
+  style = styles.hl
+) => {
+  const cWords = concepts.map(c => c.text);
+  return content.split(" ").map((e, i) => {
+    if (cWords.includes(e)) {
+      if (similarities.length > 0) {
+        let s = similarities.shift();
+        return (
+          <span
+            key={e + " " + i}
+            style={{
+              ...style,
+              backgroundColor: primary[100 + parseInt(s * 400)]
+            }}
+          >
+            {e + " "}
+          </span>
+        );
+      } else {
+        return (
+          <span key={e + " " + i} style={style}>
+            {e + " "}
+          </span>
+        );
+      }
+    } else {
+      return e + " ";
+    }
+  });
+};

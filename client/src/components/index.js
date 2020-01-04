@@ -17,8 +17,10 @@ import FileSelector, { parseSparksFrom } from "./FileSelector";
 import InspiredByList from "./InspiredByList";
 import DeleteIdea from "./DeleteIdea";
 import ContestSelector from "./ContestSelector";
+import SliderK from "./sliderK";
 
 export {
+  SliderK,
   ContestSelector,
   DeleteIdea,
   InspiredByList,

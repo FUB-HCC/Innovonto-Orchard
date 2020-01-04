@@ -7,7 +7,8 @@ import {
   SparkStack,
   ClusterList,
   ActiveSpark,
-  UndoRedo
+  UndoRedo,
+  SliderK
 } from "./";
 import { moveSpark, moveCluster, loadSparks } from "../actions";
 import { boardColor } from "./../constants/color";
@@ -85,6 +86,17 @@ class Board extends Component {
             stackSparks={stackSparks}
             type="STACK"
           />
+          <SparkStack
+            name="Recommender"
+            stackSparks={stackSparks
+              .slice()
+              .sort(() => Math.random() - 0.5)
+              .slice(5, 10)
+              .map(i => ({ ...i, similarities: [0.5, 0.7, 0.9, 0.2] }))}
+            type="STACK"
+          >
+            <SliderK />
+          </SparkStack>
         </div>
         <div style={styles.container}>
           <div style={styles.board}>
