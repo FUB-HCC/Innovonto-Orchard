@@ -131,7 +131,6 @@ function addSparkToSink(state, sink, spark, plusOneLength) {
     case "CLUSTER":
       [cluster, clusters] = removeElement(sink.id, state.clusters);
       let place = getPlaceInCluster(spark, cluster, plusOneLength ? 1 : 0);
-      console.log(place);
       cluster = {
         ...cluster,
         sparks: [
@@ -158,9 +157,9 @@ function addSparkToSink(state, sink, spark, plusOneLength) {
 const getPlaceInCluster = (spark, cluster, plus) => {
   if (!spark.position) return cluster.sparks.length;
   const [w] = getShape(cluster.sparks.length + plus);
-  console.log(w, cluster.position, spark.position);
+
   let wp = Math.round((spark.position.left - cluster.position.left) / 120);
   let hp = Math.round((spark.position.top - cluster.position.top) / 120);
-  console.log(wp, hp);
+
   return hp * w + wp;
 };

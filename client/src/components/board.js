@@ -13,6 +13,7 @@ import {
 import { moveSpark, moveCluster, loadSparks } from "../actions";
 import { boardColor } from "./../constants/color";
 import { sparkSize } from "../constants/index.json";
+import { similaritySorting } from "../middleware/similaritySorting";
 
 var styles = {
   board: {
@@ -29,7 +30,8 @@ var styles = {
 };
 const mapStateToProps = state => ({
   ...state.contest.currentContest.clustering.present,
-  activeSpark: state.activeSpark
+  activeSpark: state.activeSpark,
+  similarityData: state.contest.currentContest.similarityData
 });
 const mapDispatchToProps = dispatch => ({
   moveSpark: (...props) => dispatch(moveSpark(...props)),
@@ -76,7 +78,13 @@ class Board extends Component {
   };
 
   render() {
-    const { boardSparks, clusters, stackSparks, activeSpark } = this.props;
+    const {
+      boardSparks,
+      clusters,
+      stackSparks,
+      activeSpark,
+      similarityData
+    } = this.props;
     return (
       <div className="d-flex flex-row">
         <UndoRedo />
@@ -88,15 +96,11 @@ class Board extends Component {
           />
           <SparkStack
             name="Recommender"
-            stackSparks={stackSparks
-              .slice()
-              .sort(() => Math.random() - 0.5)
-              .slice(5, 10)
-              .map(i => ({ ...i, similarities: [0.5, 0.7, 0.9, 0.2] }))}
+            stackSparks={similaritySorting(similarityData, activeSpark, [
+              ...stackSparks
+            ])}
             type="STACK"
-          >
-            <SliderK />
-          </SparkStack>
+          />
         </div>
         <div style={styles.container}>
           <div style={styles.board}>
@@ -115,14 +119,13 @@ class Board extends Component {
         </div>
 
         <div className="float-right" style={{ width: 400 }}>
+          <ClusterList clusters={clusters} />
           {activeSpark ? (
             <ActiveSpark
               {...activeSpark}
               {...findSpark(activeSpark, this.props)}
             />
-          ) : (
-            <ClusterList clusters={clusters} />
-          )}
+          ) : null}
         </div>
       </div>
     );

@@ -83,12 +83,10 @@ const staticContext = {
 };
 
 export const exportIdeasAsJsonLd = state => {
-  console.log(state);
   let date = new Date();
   var blob = new Blob([JSON.stringify(convert(state), null, 2)], {
     type: "application/json;charset=utf-8"
   });
-  console.log(blob);
   FileSaver.saveAs(
     blob,
     "I2M-AC2-Ideas-" +
@@ -187,7 +185,6 @@ function convert(ideas) {
     graph.push(ideaExportObject);
   });
   result["@graph"] = graph;
-  console.log(result);
   return result;
 }
 

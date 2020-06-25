@@ -94,7 +94,7 @@ class CreateIdea extends Component {
   handleFormSubmit = event => {
     event.preventDefault();
     const { ideaId } = this.props;
-    var method, uri, action;
+    var method, uri;
     if (ideaId) {
       method = apiEndpoint.put;
       uri = "/ideas/" + ideaId;
@@ -108,7 +108,6 @@ class CreateIdea extends Component {
     })
       .then(response => {
         const { data } = response;
-        console.log(data);
         const id = data._links.idea.href.split("/").pop();
 
         return navigate(process.env.REACT_APP_BASE + "/ideas/" + id);

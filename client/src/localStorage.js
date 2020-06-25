@@ -17,7 +17,6 @@ export const loadState = () => {
     const serializedState = localStorage.getItem("state");
     const data = JSON.parse(serializedState);
     if (ajv.validate(stateSchema, data)) {
-      console.log("valitated true", data);
       return data;
     }
     return undefined;

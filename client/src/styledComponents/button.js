@@ -38,7 +38,7 @@ class MenuButton extends React.Component {
     this.setState({ anchorEl: null });
   };
   render() {
-    const { children, contests } = this.props;
+    const { children, contests, currentContestID } = this.props;
     const { anchorEl } = this.state;
     return (
       <div>
@@ -58,7 +58,11 @@ class MenuButton extends React.Component {
         >
           {contests
             ? contests.map(({ title, id }) => (
-                <MenuItem key={id} onClick={this.handleClose({ id, title })}>
+                <MenuItem
+                  key={id}
+                  selected={currentContestID === id}
+                  onClick={this.handleClose({ id, title })}
+                >
                   {title}
                 </MenuItem>
               ))

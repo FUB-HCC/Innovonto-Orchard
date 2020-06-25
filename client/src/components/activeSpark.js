@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { updateSpark } from "../actions";
 import { TextNote, LabelList } from "./";
 import { H6, Section } from "../styledComponents";
-import { highlighted } from "./spark";
+import { Highlighted } from "./spark";
 
 const styles = {
   box: {
@@ -17,6 +17,7 @@ const styles = {
 const ActiveSpark = ({
   id,
   container,
+  index,
   content,
   concepts,
   labels,
@@ -39,7 +40,12 @@ const ActiveSpark = ({
       />
       <Section>content:</Section>
       <div style={styles.content}>
-        {highlighted(concepts, content, { textDecoration: "underline" })}
+        <Highlighted
+          concepts={concepts}
+          content={content}
+          style={{ textDecoration: "underline" }}
+          idea={{ id, container, index }}
+        />
       </div>
     </div>
   );

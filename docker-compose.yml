@@ -1,0 +1,15 @@
+version: "2"
+services:
+  orchard:
+    hostname: orchard
+    container_name: orchard
+    image: git.imp.fu-berlin.de:5000/ideas-to-market/innovonto-core/orchard:latest
+    build: ./client
+    logging:
+      options:
+        max-size: "1G"
+        max-file: "2"
+    ports:
+      - 8081:81
+    user: ${UID}:${GID}
+    restart: always

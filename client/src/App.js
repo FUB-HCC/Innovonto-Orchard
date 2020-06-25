@@ -1,20 +1,13 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Router } from "@reach/router";
-import { apiEndpoint } from "./utils";
 import { setContests, loadSparks } from "./actions";
-import {
-  Board,
-  Header,
-  CreateIdea,
-  ViewCreatedIdeas,
-  parseSparksFrom
-} from "./components";
+import { getContests, getContestIdeas } from "./middleware/requests";
+import { Board, Header, CreateIdea, ViewCreatedIdeas } from "./components";
 import { backgroundColor } from "./constants/color";
 class App extends Component {
   componentDidMount() {
-    apiEndpoint.get("/ideaContests/").then(res => {
-      this.props.dispatch(setContests(res.data));
+    getContests(data => this.props.dispatch(setContests(data))).then(res => {
       this.handleLoadSparks();
     });
   }
@@ -29,15 +22,8 @@ class App extends Component {
 
   handleLoadSparks = () => {
     if (!this.props.sparksLoaded && this.props.currentContestID) {
-      apiEndpoint
-        .get("/ideaContests/" + this.props.currentContestID + "/sparks/")
-        .then((res, err) => {
-          if (err) {
-            return console.log(err);
-          }
-          console.log(res.data);
-          this.props.dispatch(loadSparks(parseSparksFrom(res.data)));
-        });
+      const dispatch = data => this.props.dispatch(loadSparks(data));
+      getContestIdeas(dispatch, this.props.currentContestID);
     }
   };
   render() {

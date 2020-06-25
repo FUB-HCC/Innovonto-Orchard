@@ -35,10 +35,21 @@ const resetState = () => ({
   type: "RESET_STATE"
 });
 
-const setActiveSpark = (id, container) => ({
+const setActiveSpark = (id, container, index, conceptSIM) => ({
   type: "SET_ACTIVE_SPARK",
   id,
-  container
+  index,
+  container,
+  conceptSIM
+});
+
+const setActiveConcept = (id, container, index, concept, conceptSIM) => ({
+  type: "SET_ACTIVE_CONCEPT",
+  id,
+  container,
+  index,
+  concept,
+  conceptSIM
 });
 
 const removeAvtiveSpark = () => ({
@@ -63,6 +74,7 @@ export {
   turnBackStack,
   resetState,
   setActiveSpark,
+  setActiveConcept,
   updateSpark,
   removeAvtiveSpark
 };

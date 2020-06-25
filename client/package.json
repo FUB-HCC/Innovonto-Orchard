@@ -1,8 +1,9 @@
 {
-  "name": "visual-idea-clustering",
+  "name": "orchard-clustering",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://ideas-to-market/apps/orchard",
+  "license": "MIT",
+  "main": "src/index.js",
   "dependencies": {
     "@babel/core": "7.1.0",
     "@emotion/core": "^10.0.5",

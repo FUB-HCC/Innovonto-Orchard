@@ -60,7 +60,6 @@ export default class IconUploader extends Component {
         return res.data;
       })
       .then(data => {
-        console.log("Upload successful, response is:", data);
         const image = {
           ...data
           //qualifiedResourceName: "http://localhost:8080" + data.resourceName

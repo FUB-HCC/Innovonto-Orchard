@@ -20,9 +20,14 @@ export const parseSparksFrom = doc => {
         .filter(v => v !== "")
         .pop(),
       title: `Spark ${i}`,
+      index: i,
       position: { left: 0, top: 0 },
-      concepts: Array.isArray(spark.hasAnnotation)
-        ? spark.hasAnnotation.map(c => ({ text: c.text, id: c["@id"] }))
+      concepts: Array.isArray(spark.concept)
+        ? spark.concept.map(c => ({
+            text: c.Surface,
+            id: c.linkedConcept,
+            "@id": c["@id"]
+          }))
         : []
     };
   });

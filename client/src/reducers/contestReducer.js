@@ -1,24 +1,35 @@
 import clusteringReducer from "./clusteringReducer";
 import undoable from "redux-undo";
+import { loadSimilarityData } from "../middleware/load_SIM_data";
 
-export default (contest = { contests: [], currentContest: {} }, action) => {
+const undoableReducer = undoable(clusteringReducer, {
+  limit: 50
+});
+
+const initState = {
+  contests: [],
+  currentContest: { clustering: undoableReducer(undefined) }
+};
+
+export default (contest = initState, action) => {
   var { type, currentContest, contests } = action;
   switch (type) {
     case "SET_CONTESTS":
-      var newContests = contests.filter(con =>
-        contest.contests.every(c => c.id !== con.id)
-      );
-      newContests = [...contest.contests, ...newContests];
-      if (!contest.currentContest.id && newContests.length > 0) {
+      if (contests.lenght === 0) {
+        return contest; //if the update failed, don't update
+      }
+      /*if (!contest.currentContest.id) {
         contest.currentContest = {
-          ...newContests[0],
+          ...contests[0],
           clustering: undoableReducer(undefined, action)
         };
-      }
-      return { ...contest, contests: newContests };
+      }*/
+      return { ...contest, contests: contests };
     case "SET_CURRENT_CONTEST":
       if (contest.currentContest.id) {
-        var index = contest.contests.findIndex(c => c.id === currentContest.id);
+        var index = contest.contests.findIndex(
+          c => c.id === contest.currentContest.id
+        );
         if (index >= 0)
           contests = [
             ...contest.contests.slice(0, index),
@@ -27,7 +38,8 @@ export default (contest = { contests: [], currentContest: {} }, action) => {
               clustering: {
                 ...contest.currentContest.clustering,
                 future: [],
-                past: []
+                past: [],
+                similarityData: null
               }
             },
             ...contest.contests.slice(index + 1)
@@ -39,7 +51,8 @@ export default (contest = { contests: [], currentContest: {} }, action) => {
         ...contest,
         currentContest: {
           ...currentContest,
-          clustering: undoableReducer(newContest.clustering, action)
+          clustering: undoableReducer(newContest.clustering, action),
+          similarityData: loadSimilarityData(currentContest.id.split("/").pop())
         }
       };
     default:
@@ -52,7 +65,3 @@ export default (contest = { contests: [], currentContest: {} }, action) => {
       };
   }
 };
-
-const undoableReducer = undoable(clusteringReducer, {
-  limit: 50
-});

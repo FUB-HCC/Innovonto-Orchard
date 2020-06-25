@@ -5,7 +5,6 @@ import { navigate } from "@reach/router";
 const sendDeleteIdea = id => {
   apiEndpoint.delete("/ideas/" + id).then((response, err) => {
     if (!err && response.status === 204) {
-      console.log(response);
       navigate("../ideas");
     }
   });

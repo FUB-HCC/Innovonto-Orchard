@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { setActiveSpark } from "../actions";
+import { setActiveSpark, setActiveConcept } from "../actions";
 import Draggable from "./draggable";
 import { sparkColor, borderColor } from "../constants/color";
 import { sparkSize } from "./../constants/index.json";
@@ -71,32 +71,30 @@ class Spark extends Component {
   }
 
   componentDidMount() {
-    const text = ellipsizeTextBox("content" + this.props.data.id);
+    const text = ellipsizeTextBox(
+      this.props.container.name + this.props.data.id
+    );
     this.setState({
       ellipText: text
     });
   }
   handleOnClick = ev => {
     const {
+      concept2ideaSIM,
       boundSetActiveSpark,
       container,
-      data: { id }
+      data: { id, index }
     } = this.props;
-    boundSetActiveSpark(id, container);
+
+    let conceptSIM = concept2ideaSIM.map(con => con[index]);
+    const simNorm = 1 / Math.max.apply(null, conceptSIM);
+    conceptSIM = conceptSIM.map(sim => simNorm * sim);
+    boundSetActiveSpark(id, container, index, conceptSIM);
   };
 
   render() {
     const {
-      data: {
-        position,
-        id,
-        content,
-        labels,
-        textnote,
-        title,
-        concepts,
-        similarities
-      },
+      data: { position, id, index, content, labels, textnote, title, concepts },
       container,
       dropZone,
       activeSpark
@@ -109,7 +107,6 @@ class Spark extends Component {
     if (container.type === "CLUSTER" || container.type === "STACK") {
       style = { ...style, ...styles.inCluster };
     }
-
     var text = ellipText ? ellipText : content;
     return (
       <Draggable
@@ -126,10 +123,17 @@ class Spark extends Component {
             {labels && labels.length ? <LabelIcon /> : null}
             {textnote ? <TextnoteIcon /> : null}
           </H6>
-          <p id={"content" + id} style={styles.content}>
-            {(activeSpark === id || similarities) && ellipText
-              ? highlighted(concepts, text, similarities)
-              : text}
+          <p id={container.name + id} style={styles.content}>
+            {activeSpark && ellipText ? (
+              <Highlighted
+                concepts={concepts}
+                content={text}
+                style={styles.hl}
+                idea={{ id, container, index }}
+              />
+            ) : (
+              text
+            )}
           </p>
         </div>
       </Draggable>
@@ -138,7 +142,8 @@ class Spark extends Component {
 }
 
 const mapStateToProps = state => ({
-  activeSpark: state.activeSpark && state.activeSpark.id
+  activeSpark: state.activeSpark && state.activeSpark.id,
+  concept2ideaSIM: state.contest.currentContest.similarityData.concept2ideaSIM
 });
 const mapDispatchToProps = dispatch => ({
   boundSetActiveSpark: (...props) => dispatch(setActiveSpark(...props))
@@ -173,39 +178,99 @@ export const SparkInfo = ({
     </div>
   );
 };
-export default Spark;
 
-export const highlighted = (
-  concepts,
-  content,
-  similarities = [],
-  style = styles.hl
-) => {
+export const Highlighted = ({ concepts = [], content = "", style, idea }) => {
   const cWords = concepts.map(c => c.text);
-  return content.split(" ").map((e, i) => {
-    if (cWords.includes(e)) {
-      if (similarities.length > 0) {
-        let s = similarities.shift();
-        return (
-          <span
-            key={e + " " + i}
-            style={{
-              ...style,
-              backgroundColor: primary[100 + parseInt(s * 400)]
-            }}
-          >
-            {e + " "}
-          </span>
-        );
-      } else {
-        return (
-          <span key={e + " " + i} style={style}>
-            {e + " "}
-          </span>
-        );
-      }
+  var displayContent = content.slice();
+  for (var i = 0; i < cWords.length; i++) {
+    displayContent = displayContent.replace(cWords[i], "*" + i + "*");
+  }
+  var a = displayContent.split("*");
+  return a.map(v => {
+    let j = parseInt(v, 10);
+    if (j >= 0) {
+      return (
+        <Concept
+          key={j + " "}
+          concept={concepts[j]}
+          style={style}
+          words={cWords[j]}
+          idea={idea}
+        />
+      );
     } else {
-      return e + " ";
+      return v;
     }
   });
 };
+
+const Concept = connect(
+  state => ({
+    active: state.activeSpark,
+    similarityData: state.contest.currentContest.similarityData
+  }),
+  dispatch => ({
+    boundSetActiveConcept: (...props) => dispatch(setActiveConcept(...props))
+  })
+)(
+  ({
+    concept,
+    style,
+    words,
+    idea,
+    active,
+    similarityData,
+    boundSetActiveConcept
+  }) => {
+    const sim =
+      active.conceptSIM[similarityData.concepts.indexOf(concept.id.slice(3))];
+    const activeConcept = active.concept && concept.id === active.concept.id;
+    return sim ? (
+      <span
+        onClick={e =>
+          handleOnClickConcept(
+            e,
+            boundSetActiveConcept,
+            similarityData,
+            concept,
+            idea
+          )
+        }
+        style={{
+          ...style,
+          fontWeight: activeConcept ? "bold" : "normal",
+          backgroundColor: sim
+            ? primary[100 + parseInt(sim * 7) * 100]
+            : primary[300]
+        }}
+      >
+        {words}
+      </span>
+    ) : (
+      <span>{words}</span>
+    );
+  }
+);
+
+const handleOnClickConcept = (
+  e,
+  boundSetActiveConcept,
+  similarityData,
+  concept,
+  idea
+) => {
+  e.stopPropagation();
+  const cindex = similarityData.concepts.indexOf(concept.id.slice(3));
+  let conceptSIM = similarityData.conceptSIM[cindex];
+  const simNorm = 1 / Math.max.apply(null, conceptSIM);
+  conceptSIM = conceptSIM.map(sim => simNorm * sim);
+  boundSetActiveConcept(
+    idea.id,
+    idea.container,
+    idea.index,
+    concept,
+    conceptSIM
+  );
+};
+
+export default Spark;
