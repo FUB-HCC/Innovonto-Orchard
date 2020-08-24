@@ -4,6 +4,7 @@
   "private": true,
   "license": "MIT",
   "main": "src/index.js",
+  "homepage": "https://i2m-research.imp.fu-berlin.de/",
   "dependencies": {
     "@babel/core": "7.1.0",
     "@emotion/core": "^10.0.5",
@@ -65,6 +66,7 @@
     "redux-undo": "^1.0.0-beta9-9-7",
     "resolve": "1.8.1",
     "sass-loader": "7.1.0",
+    "source-map-explorer": "^2.4.2",
     "style-loader": "0.23.0",
     "terser-webpack-plugin": "^2.3.0",
     "url-loader": "1.1.1",
@@ -78,6 +80,7 @@
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js",
+    "analyze": "source-map-explorer 'build/static/js/*.js'",
     "eslint:fix": "eslint --ignore-path .gitignore \"**/*.{js,jsx}\" --fix",
     "eslint:test": "eslint --ignore-path .gitignore \"**/*.{js,jsx}\""
   },

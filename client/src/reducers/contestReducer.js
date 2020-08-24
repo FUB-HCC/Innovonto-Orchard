@@ -24,7 +24,10 @@ export default (contest = initState, action) => {
           clustering: undoableReducer(undefined, action)
         };
       }*/
-      return { ...contest, contests: contests };
+      contests = contests.filter(
+        c => !contest.contests.map(cc => cc.id).includes(c.id)
+      ); // only new contests
+      return { ...contest, contests: [...contest.contests, ...contests] };
     case "SET_CURRENT_CONTEST":
       if (contest.currentContest.id) {
         var index = contest.contests.findIndex(

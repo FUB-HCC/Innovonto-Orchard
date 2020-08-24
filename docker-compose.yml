@@ -1,4 +1,4 @@
-version: "2"
+version: "3"
 services:
   orchard:
     hostname: orchard
@@ -10,6 +10,5 @@ services:
         max-size: "1G"
         max-file: "2"
     ports:
-      - 8081:81
-    user: ${UID}:${GID}
+      - 8080:80
     restart: always
