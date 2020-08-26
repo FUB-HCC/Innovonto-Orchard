@@ -36,7 +36,7 @@
 
 ## View
 
-![Example](/client/public/ScreenshotVisualIdeaClustering.png)
+![Example](/client/public/Orchard_RF_SPARK8.png)
 
 ## Activity Diagram
 
